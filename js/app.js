@@ -1,4 +1,5 @@
-/* 慢慢学：课程渲染、进度记录与 JSON 备份。进度先写本地，多端同步交给 js/sync.js。 */
+/* 慢慢学：课程渲染、进度记录与 JSON 备份。进度先写本地，多端同步交给 js/sync.js。
+ * 有大纲的课程以「章节勾选」为主输入，进度由勾选数推算；没有大纲的课程沿用滑条与状态按钮。 */
 "use strict";
 
 (() => {
@@ -50,7 +51,8 @@
     const time = date.toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit", hour12: false });
     return date.toDateString() === new Date().toDateString() ? time : `${date.getMonth() + 1}月${date.getDate()}日 ${time}`;
   };
-  const defaults = () => Object.fromEntries(courses.map((course) => [course.id, { status: statusOf(course.progress || 0), progress: course.progress || 0 }]));
+  const outlineOf = (course) => (Array.isArray(course.outline) ? course.outline : []);
+  const defaults = () => Object.fromEntries(courses.map((course) => [course.id, toRecord(course, { progress: course.progress || 0, checked: [] })]));
 
   function notify(message) {
     clearTimeout(toastTimer);
@@ -65,6 +67,29 @@
   }
 
   // —— 本地记录 ——
+
+  // 统一生成一门课的记录 { status, progress, checked?, updatedAt? }。
+  // 有大纲：checked 只保留大纲内的章节（按大纲顺序），progress = round(已勾选 / 章节数 × 100)，
+  // 并保证只有全部勾选才是 100%、勾了任一节至少 1%；旧记录没有 checked 时沿用原进度，直到第一次勾选。
+  // 无大纲：沿用旧逻辑，进度就是记录里的百分比。
+  function toRecord(course, source) {
+    const outline = outlineOf(course);
+    let progress = source.progress;
+    let checked;
+    if (outline.length && Array.isArray(source.checked)) {
+      const marks = new Set(source.checked);
+      checked = outline.map((item) => String(item.id)).filter((id) => marks.has(id));
+      progress = Math.round((checked.length / outline.length) * 100);
+      if (checked.length < outline.length) progress = Math.min(99, progress);
+      if (checked.length) progress = Math.max(1, progress);
+    }
+    return {
+      status: statusOf(progress),
+      progress,
+      ...(checked ? { checked } : {}),
+      ...(source.updatedAt ? { updatedAt: source.updatedAt } : {})
+    };
+  }
 
   // 只把被改动过（带 updatedAt）的课程写入本地与云端，未动过的课程不会覆盖其他设备的进度。
   function progressDoc() {
@@ -83,14 +108,15 @@
     }
   }
 
-  // 把进度文档中属于当前课单的课程写入内存；返回进度数值发生变化的课程数。
+  // 把进度文档中属于当前课单的课程写入内存；返回进度或章节勾选发生变化的课程数。
   function applyCourses(courseMap) {
     let changed = 0;
     for (const course of courses) {
-      const record = courseMap[course.id];
-      if (!record) continue;
-      if (records[course.id].progress !== record.progress) changed += 1;
-      records[course.id] = { status: statusOf(record.progress), progress: record.progress, ...(record.updatedAt ? { updatedAt: record.updatedAt } : {}) };
+      if (!courseMap[course.id]) continue;
+      const before = records[course.id];
+      const record = toRecord(course, courseMap[course.id]);
+      if (before.progress !== record.progress || String(before.checked) !== String(record.checked)) changed += 1;
+      records[course.id] = record;
     }
     return changed;
   }
@@ -113,12 +139,25 @@
     }
   }
 
-  function changeProgress(id, progress) {
-    records[id] = { status: statusOf(progress), progress, updatedAt: new Date().toISOString() };
+  function commit(id, record) {
+    records[id] = record;
     updateCard(id);
     updateSummary();
     saveProgress();
     Sync.schedule();
+  }
+
+  // 主入口：勾选或取消一个章节，整课记录带上新的 updatedAt，同步时较新的一端整条覆盖。
+  function toggleChapter(course, chapterId, done) {
+    const marks = new Set(records[course.id].checked);
+    if (done) marks.add(chapterId);
+    else marks.delete(chapterId);
+    commit(course.id, toRecord(course, { checked: [...marks], updatedAt: new Date().toISOString() }));
+  }
+
+  // 无大纲课程的旧入口：滑条与状态按钮直接改百分比。
+  function changeProgress(id, progress) {
+    commit(id, { status: statusOf(progress), progress, updatedAt: new Date().toISOString() });
   }
 
   function refreshAll() {
@@ -197,11 +236,16 @@
     wrap.dataset.track = track ? track.key : 1;
     const tag = element("span", "track-tag");
     tag.append(element("i", "track-dot"), document.createTextNode(course.track));
-    const meta = element("p", "next-meta", `${course.teacher} · ${record.progress}%`);
+    const outline = outlineOf(course);
+    const learned = record.checked || [];
+    const meta = element("p", "next-meta", `${course.teacher} · ${record.progress}%` + (outline.length ? ` · 已学 ${learned.length}/${outline.length} 节` : ""));
     const rail = element("span", "bar");
     const fill = element("i");
     fill.style.width = record.progress + "%";
     rail.append(fill);
+    const upcoming = outline.find((item) => !learned.includes(String(item.id)));
+    const chapter = upcoming ? element("p", "next-chapter") : null;
+    if (chapter) chapter.append(element("span", "", "下一节"), document.createTextNode(upcoming.title));
     const actions = element("div", "next-actions");
     const first = safeLinks(course)[0];
     if (first) {
@@ -216,7 +260,7 @@
       focusCard(course.id);
     });
     actions.append(locate);
-    wrap.append(tag, element("h3", "next-title", course.title), meta, rail, actions);
+    wrap.append(tag, element("h3", "next-title", course.title), meta, rail, ...(chapter ? [chapter] : []), actions);
     body.replaceChildren(wrap);
   }
 
@@ -243,15 +287,58 @@
   }
 
   function updateCard(id) {
-    const { card, badge, radios, slider, output } = cards.get(id);
+    const parts = cards.get(id);
     const record = records[id];
-    card.dataset.status = record.status;
-    badge.textContent = record.status === "done" ? "✓ 已完成" : STATES[record.status];
-    radios[record.status].checked = true;
-    slider.value = record.progress;
-    slider.style.setProperty("--fill", record.progress + "%");
-    slider.setAttribute("aria-valuetext", `${record.progress}%，${STATES[record.status]}`);
-    output.value = record.progress + "%";
+    parts.card.dataset.status = record.status;
+    parts.badge.textContent = record.status === "done" ? "✓ 已完成" : STATES[record.status];
+    parts.output.value = record.progress + "%";
+    if (parts.boxes) {
+      updateOutline(parts, record);
+      return;
+    }
+    parts.radios[record.status].checked = true;
+    parts.slider.value = record.progress;
+    parts.slider.style.setProperty("--fill", record.progress + "%");
+    parts.slider.setAttribute("aria-valuetext", `${record.progress}%，${STATES[record.status]}`);
+  }
+
+  function updateOutline({ meter, fill, count, hint, boxes }, record) {
+    const marks = new Set(record.checked);
+    boxes.forEach((box, id) => { box.checked = marks.has(id); });
+    const text = `已学 ${marks.size}/${boxes.size}`;
+    count.textContent = text;
+    fill.style.width = record.progress + "%";
+    meter.setAttribute("aria-valuenow", record.progress);
+    meter.setAttribute("aria-valuetext", `${record.progress}%，${text} 节，${STATES[record.status]}`);
+    // 旧版只有滑条百分比、没有勾选记录：先保留原进度，并说明下一次勾选会改按大纲重算。
+    hint.hidden = Boolean(record.checked) || record.progress === 0;
+    hint.textContent = `当前 ${record.progress}% 来自旧版滑条记录，勾选任一章节后改按大纲计算。`;
+  }
+
+  function renderOutline(course, parts) {
+    const details = element("details", "outline");
+    const summary = element("summary");
+    const count = element("span", "outline-count");
+    summary.append(element("span", "outline-label", "课程大纲"), count);
+    const hint = element("p", "outline-hint");
+    const list = element("ol", "outline-list");
+    list.setAttribute("aria-label", course.title + "：章节勾选");
+    const boxes = new Map();
+    outlineOf(course).forEach((item, index) => {
+      const id = String(item.id);
+      const label = element("label", "outline-item");
+      const box = element("input");
+      box.type = "checkbox";
+      box.addEventListener("change", () => toggleChapter(course, id, box.checked));
+      label.append(box, element("span", "outline-no", pad(index + 1)), element("span", "outline-title", item.title));
+      const row = element("li");
+      row.append(label);
+      list.append(row);
+      boxes.set(id, box);
+    });
+    details.append(summary, hint, list);
+    Object.assign(parts, { count, hint, boxes });
+    return details;
   }
 
   function renderCard(course, index) {
@@ -275,9 +362,30 @@
 
     const progress = element("div", "course-progress");
     const row = element("div", "progress-row");
+    const output = element("output", "course-value");
+    const parts = { card, badge: head.lastChild, output };
+    card.append(head, title, meta, element("p", "course-note", course.note), links, progress);
+    cards.set(course.id, parts);
+
+    // 有大纲：进度条只读，勾选章节是唯一输入。
+    if (outlineOf(course).length) {
+      row.append(element("span", "", "学习进度"), output);
+      const meter = element("span", "bar course-bar");
+      meter.setAttribute("role", "progressbar");
+      meter.setAttribute("aria-valuemin", "0");
+      meter.setAttribute("aria-valuemax", "100");
+      meter.setAttribute("aria-label", course.title + "：学习进度");
+      const fill = element("i");
+      meter.append(fill);
+      Object.assign(parts, { meter, fill });
+      progress.append(row, meter, renderOutline(course, parts));
+      updateCard(course.id);
+      return card;
+    }
+
+    // 无大纲（兜底）：保留旧版滑条与状态按钮。
     const label = element("label", "", "学习进度");
     label.htmlFor = "progress-" + course.id;
-    const output = element("output", "course-value");
     output.htmlFor = label.htmlFor;
     row.append(label, output);
     const slider = element("input", "course-slider");
@@ -301,9 +409,7 @@
       radios[value] = radio;
     }
     progress.append(row, slider, segmented);
-
-    card.append(head, title, meta, element("p", "course-note", course.note), links, progress);
-    cards.set(course.id, { card, badge: head.lastChild, radios, slider, output });
+    Object.assign(parts, { radios, slider });
     updateCard(course.id);
     return card;
   }
@@ -358,7 +464,7 @@
     $("course-total").textContent = courses.length + " 门课程";
   }
 
-  // —— 状态筛选：只在切换筛选、导入或云端合并后重排，拖动滑条时不让卡片突然消失 ——
+  // —— 状态筛选：只在切换筛选、导入或云端合并后重排，勾选章节时不让卡片突然消失 ——
 
   function renderFilter() {
     const group = $("status-filter");
@@ -444,11 +550,12 @@
     if (!isObject(raw) || raw.version !== 1 || !isObject(raw.courses)) {
       throw new Error("备份格式不正确，请选择本站导出的版本 1 JSON 文件。");
     }
-    const knownIds = new Set(courses.map((course) => course.id));
+    const byId = new Map(courses.map((course) => [course.id, course]));
     const valid = Object.create(null);
     let ignored = 0;
     for (const [id, record] of Object.entries(raw.courses)) {
-      if (!knownIds.has(id)) { ignored += 1; continue; }
+      const course = byId.get(id);
+      if (!course) { ignored += 1; continue; }
       if (!isObject(record) || !Object.hasOwn(STATES, record.status) ||
           !Number.isInteger(record.progress) || record.progress < 0 || record.progress > 100) {
         throw new Error("备份中有无效进度：状态须有效，百分比须为 0–100 的整数。原记录未更改。");
@@ -456,7 +563,11 @@
       if (record.status !== statusOf(record.progress)) {
         throw new Error("备份中的状态与进度不一致（0% 待开始，100% 已完成）。原记录未更改。");
       }
-      valid[id] = { status: record.status, progress: record.progress };
+      if (record.checked !== undefined && (!Array.isArray(record.checked) || !record.checked.every((item) => typeof item === "string"))) {
+        throw new Error("备份中有无效的大纲勾选：checked 须为章节 id 字符串数组。原记录未更改。");
+      }
+      // 带 checked 的记录以勾选为准重新推算进度；旧版备份没有 checked 时沿用其百分比。
+      valid[id] = toRecord(course, { progress: record.progress, checked: record.checked });
     }
     if (!Object.keys(valid).length) throw new Error("备份中没有与当前课单匹配的课程。原记录未更改。");
     return { records: valid, ignored };
@@ -489,7 +600,7 @@
       catch { throw new Error("无法解析 JSON 文件，原有进度未更改。"); }
       pendingImport = validateBackup(raw);
       const count = Object.keys(pendingImport.records).length;
-      $("import-description").textContent = `将用「${file.name}」更新 ${count} 门课程的状态与进度。` + (pendingImport.ignored ? `另有 ${pendingImport.ignored} 条不匹配记录，将忽略。` : "");
+      $("import-description").textContent = `将用「${file.name}」更新 ${count} 门课程的进度与大纲勾选。` + (pendingImport.ignored ? `另有 ${pendingImport.ignored} 条不匹配记录，将忽略。` : "");
       $("import-dialog").returnValue = "";
       $("import-dialog").showModal();
     } catch (error) {

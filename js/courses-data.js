@@ -1,4 +1,4 @@
-// 自动维护：课程数据源。含 ESP32 主线 + 老师补强 9 门。
+// 自动维护：含 outline 大纲，勾选章节驱动进度。
 window.COURSE_DATA = {
   "courses": [
     {
@@ -28,7 +28,57 @@ window.COURSE_DATA = {
       "note": "教学主线。配合库内大纲、知识体系与 ESP32-AI科创课程总览。",
       "status": "not_started",
       "progress": 0,
-      "order": 1
+      "order": 1,
+      "outline": [
+        {
+          "id": "01",
+          "title": "开发环境与固件烧录"
+        },
+        {
+          "id": "02",
+          "title": "REPL 与 Thonny/mpremote"
+        },
+        {
+          "id": "03",
+          "title": "GPIO 点灯与按键"
+        },
+        {
+          "id": "04",
+          "title": "PWM 呼吸灯与舵机"
+        },
+        {
+          "id": "05",
+          "title": "ADC 读模拟量"
+        },
+        {
+          "id": "06",
+          "title": "UART 串口通信"
+        },
+        {
+          "id": "07",
+          "title": "I2C（OLED/传感器）"
+        },
+        {
+          "id": "08",
+          "title": "SPI 外设"
+        },
+        {
+          "id": "09",
+          "title": "定时器与中断直觉"
+        },
+        {
+          "id": "10",
+          "title": "文件系统与模块化"
+        },
+        {
+          "id": "11",
+          "title": "Wi-Fi 联网基础"
+        },
+        {
+          "id": "12",
+          "title": "综合小项目验收"
+        }
+      ]
     },
     {
       "id": "esp32-bemfa-mqtt",
@@ -49,7 +99,37 @@ window.COURSE_DATA = {
       "note": "物联网实战；对应讲义 L17–L25 与库内「ESP32 + 巴法云 MQTT + 微信推送」。",
       "status": "not_started",
       "progress": 0,
-      "order": 2
+      "order": 2,
+      "outline": [
+        {
+          "id": "01",
+          "title": "MQTT 概念与主题设计"
+        },
+        {
+          "id": "02",
+          "title": "巴法云账号与设备创建"
+        },
+        {
+          "id": "03",
+          "title": "MicroPython 连接巴法"
+        },
+        {
+          "id": "04",
+          "title": "远程开关灯实战"
+        },
+        {
+          "id": "05",
+          "title": "传感器上报与微信推送"
+        },
+        {
+          "id": "06",
+          "title": "断网重连与心跳"
+        },
+        {
+          "id": "07",
+          "title": "课堂演示课例打磨"
+        }
+      ]
     },
     {
       "id": "esp32-asyncio-fsm",
@@ -66,7 +146,37 @@ window.COURSE_DATA = {
       "note": "进阶概念；库内有多篇 asyncio/状态机笔记，建议指定一篇总入口后精读。",
       "status": "not_started",
       "progress": 0,
-      "order": 3
+      "order": 3,
+      "outline": [
+        {
+          "id": "01",
+          "title": "阻塞 vs 非阻塞"
+        },
+        {
+          "id": "02",
+          "title": "ticks_ms 协作式调度"
+        },
+        {
+          "id": "03",
+          "title": "uasyncio 任务与 sleep"
+        },
+        {
+          "id": "04",
+          "title": "队列/事件传递"
+        },
+        {
+          "id": "05",
+          "title": "按键状态机"
+        },
+        {
+          "id": "06",
+          "title": "多模块仲裁架构"
+        },
+        {
+          "id": "07",
+          "title": "摄像头+Wi-Fi 卡顿案例复盘"
+        }
+      ]
     },
     {
       "id": "arduino-mindplus",
@@ -83,7 +193,37 @@ window.COURSE_DATA = {
       "note": "课堂教具线；配合智慧停车场踩坑笔记。Arduino 入门 BV 待钉。",
       "status": "not_started",
       "progress": 0,
-      "order": 4
+      "order": 4,
+      "outline": [
+        {
+          "id": "01",
+          "title": "Mind+ 界面与扩展库"
+        },
+        {
+          "id": "02",
+          "title": "UNO 板型与串口驱动"
+        },
+        {
+          "id": "03",
+          "title": "图形化：灯/蜂鸣器/超声波"
+        },
+        {
+          "id": "04",
+          "title": "中文显示与字符串长度坑"
+        },
+        {
+          "id": "05",
+          "title": "智慧停车场项目拆解"
+        },
+        {
+          "id": "06",
+          "title": "上传与 COM 口排错"
+        },
+        {
+          "id": "07",
+          "title": "与 ESP32 对照实验"
+        }
+      ]
     },
     {
       "id": "k230-canmv",
@@ -112,7 +252,37 @@ window.COURSE_DATA = {
       "note": "端侧视觉；对应讲义 L28–L35 与植物视觉/刷机日志。",
       "status": "not_started",
       "progress": 0,
-      "order": 5
+      "order": 5,
+      "outline": [
+        {
+          "id": "01",
+          "title": "刷机与 GUI 验收分阶段"
+        },
+        {
+          "id": "02",
+          "title": "CanMV IDE / MicroPython 入门"
+        },
+        {
+          "id": "03",
+          "title": "摄像头预览与拍照"
+        },
+        {
+          "id": "04",
+          "title": "YOLOv8n 检测跑通"
+        },
+        {
+          "id": "05",
+          "title": "自训/替换模型流程"
+        },
+        {
+          "id": "06",
+          "title": "植物视觉闭环课例"
+        },
+        {
+          "id": "07",
+          "title": "课堂安全与算力边界"
+        }
+      ]
     },
     {
       "id": "sim-lab-wokwi",
@@ -141,7 +311,33 @@ window.COURSE_DATA = {
       "note": "练手与备课演示；详见库内 8 周机器人 3D 交互学习路线笔记。可不计入主线加权。",
       "status": "not_started",
       "progress": 0,
-      "order": 6
+      "order": 6,
+      "outline": [
+        {
+          "id": "01",
+          "title": "Wokwi ESP32 工程创建"
+        },
+        {
+          "id": "02",
+          "title": "串口与传感器仿真"
+        },
+        {
+          "id": "03",
+          "title": "Tinkercad 电路搭接"
+        },
+        {
+          "id": "04",
+          "title": "esp-labs 在线实验"
+        },
+        {
+          "id": "05",
+          "title": "robotips 8 周路线通览"
+        },
+        {
+          "id": "06",
+          "title": "选 1 周做成备课演示"
+        }
+      ]
     },
     {
       "id": "c-wengkai",
@@ -166,7 +362,37 @@ window.COURSE_DATA = {
       "note": "国家精品在线开放课；零基础 C 入门，嵌入式必会。官方以 MOOC 为准，B 站为自学镜像。后续还有《C语言程序设计进阶》。",
       "status": "not_started",
       "progress": 0,
-      "order": 10
+      "order": 10,
+      "outline": [
+        {
+          "id": "01",
+          "title": "计算思维与第一个程序"
+        },
+        {
+          "id": "02",
+          "title": "变量与数据类型"
+        },
+        {
+          "id": "03",
+          "title": "分支与循环"
+        },
+        {
+          "id": "04",
+          "title": "数组"
+        },
+        {
+          "id": "05",
+          "title": "函数与模块化"
+        },
+        {
+          "id": "06",
+          "title": "指针入门（选学）"
+        },
+        {
+          "id": "07",
+          "title": "综合练习与 MicroPython 对照表"
+        }
+      ]
     },
     {
       "id": "analog-zheng",
@@ -187,7 +413,37 @@ window.COURSE_DATA = {
       "note": "经典模电公开课，二极管 / BJT / MOS / 放大 / 反馈 / 运放 / 振荡与电源。适合有一点电路基础后再跟；教材多配童诗白、华成英《模拟电子技术基础》。",
       "status": "not_started",
       "progress": 0,
-      "order": 11
+      "order": 11,
+      "outline": [
+        {
+          "id": "01",
+          "title": "二极管与整流"
+        },
+        {
+          "id": "02",
+          "title": "BJT 放大"
+        },
+        {
+          "id": "03",
+          "title": "MOS 开关与放大"
+        },
+        {
+          "id": "04",
+          "title": "反馈与稳定性"
+        },
+        {
+          "id": "05",
+          "title": "运算放大器"
+        },
+        {
+          "id": "06",
+          "title": "振荡与电源"
+        },
+        {
+          "id": "07",
+          "title": "模电在传感器调理中的用法"
+        }
+      ]
     },
     {
       "id": "circuits-shiqun",
@@ -212,7 +468,37 @@ window.COURSE_DATA = {
       "note": "配套邱关源《电路》第五 / 六版；从基尔霍夫、等效变换讲到相量、三相、二端口等，偏本科电路理论 + 考研。对做科创硬件：不必全啃，挑电阻网络、运放电阻电路、一阶暂态、正弦稳态即可。 讲师学校归属未确认；勿与于歆杰《电路原理》混淆。",
       "status": "not_started",
       "progress": 0,
-      "order": 12
+      "order": 12,
+      "outline": [
+        {
+          "id": "01",
+          "title": "基尔霍夫定律"
+        },
+        {
+          "id": "02",
+          "title": "等效变换与戴维南"
+        },
+        {
+          "id": "03",
+          "title": "运放电阻电路"
+        },
+        {
+          "id": "04",
+          "title": "一阶暂态"
+        },
+        {
+          "id": "05",
+          "title": "正弦稳态与相量"
+        },
+        {
+          "id": "06",
+          "title": "三相与二端口（选读）"
+        },
+        {
+          "id": "07",
+          "title": "科创硬件挑讲复盘"
+        }
+      ]
     },
     {
       "id": "stm32-tietou",
@@ -233,7 +519,49 @@ window.COURSE_DATA = {
       "note": "GPIO / 串口 / I2C / SPI / 中断 / EXTI / 时钟 / 定时器 / ADC；讲解偏底层与封装习惯。另有更长的「第 4 版」系列（如 BV1pw41187Sy 起），入门优先跟【新版】合集即可。",
       "status": "not_started",
       "progress": 0,
-      "order": 13
+      "order": 13,
+      "outline": [
+        {
+          "id": "01",
+          "title": "工程模板与下载调试"
+        },
+        {
+          "id": "02",
+          "title": "GPIO"
+        },
+        {
+          "id": "03",
+          "title": "USART"
+        },
+        {
+          "id": "04",
+          "title": "I2C"
+        },
+        {
+          "id": "05",
+          "title": "SPI"
+        },
+        {
+          "id": "06",
+          "title": "EXTI 中断"
+        },
+        {
+          "id": "07",
+          "title": "时钟树"
+        },
+        {
+          "id": "08",
+          "title": "定时器/PWM"
+        },
+        {
+          "id": "09",
+          "title": "ADC"
+        },
+        {
+          "id": "10",
+          "title": "封装习惯小结"
+        }
+      ]
     },
     {
       "id": "stm32-jiangxie",
@@ -258,7 +586,45 @@ window.COURSE_DATA = {
       "note": "B 站 STM32 零基础最主流之一；标准库手打、带中文字幕，配套套件与疑难解答页。与铁头山羊二选一精学即可（江协更「全基础」，铁头山羊偏模块化讲解）。",
       "status": "not_started",
       "progress": 0,
-      "order": 14
+      "order": 14,
+      "outline": [
+        {
+          "id": "01",
+          "title": "标准库工程搭建"
+        },
+        {
+          "id": "02",
+          "title": "GPIO 与流水灯"
+        },
+        {
+          "id": "03",
+          "title": "按键与外部中断"
+        },
+        {
+          "id": "04",
+          "title": "USART 收发"
+        },
+        {
+          "id": "05",
+          "title": "定时器与 PWM"
+        },
+        {
+          "id": "06",
+          "title": "ADC"
+        },
+        {
+          "id": "07",
+          "title": "I2C/OLED"
+        },
+        {
+          "id": "08",
+          "title": "SPI"
+        },
+        {
+          "id": "09",
+          "title": "综合外设小车/仪表"
+        }
+      ]
     },
     {
       "id": "freertos-wei",
@@ -279,7 +645,41 @@ window.COURSE_DATA = {
       "note": "基于 STM32、以项目为导向；任务 / 队列 / 信号量 / 互斥 / 事件组 / 任务通知 / 软件定时器。有 ESP32 / MicroPython 基础后再补 RTOS 概念会更顺。",
       "status": "not_started",
       "progress": 0,
-      "order": 15
+      "order": 15,
+      "outline": [
+        {
+          "id": "01",
+          "title": "为何需要 RTOS"
+        },
+        {
+          "id": "02",
+          "title": "任务创建与调度"
+        },
+        {
+          "id": "03",
+          "title": "队列"
+        },
+        {
+          "id": "04",
+          "title": "信号量与互斥"
+        },
+        {
+          "id": "05",
+          "title": "事件组与任务通知"
+        },
+        {
+          "id": "06",
+          "title": "软件定时器"
+        },
+        {
+          "id": "07",
+          "title": "移植到 STM32 工程"
+        },
+        {
+          "id": "08",
+          "title": "映射到 asyncio 直觉"
+        }
+      ]
     },
     {
       "id": "lwip-alientek",
@@ -308,7 +708,37 @@ window.COURSE_DATA = {
       "note": "以太网 / MAC·PHY、裸机与 RTOS 移植、UDP/TCP、WebServer 等。新版以官方空间 / 原子哥为准；单条 BV 号随上架变动，进空间搜「lwIP」即可。对你做 ESP32 Wi‑Fi/MQTT 教学：可作协议层对照，不必先买正点板。",
       "status": "not_started",
       "progress": 0,
-      "order": 16
+      "order": 16,
+      "outline": [
+        {
+          "id": "01",
+          "title": "以太网硬件与 PHY"
+        },
+        {
+          "id": "02",
+          "title": "LwIP 移植概览"
+        },
+        {
+          "id": "03",
+          "title": "UDP 收发"
+        },
+        {
+          "id": "04",
+          "title": "TCP 客户端/服务端"
+        },
+        {
+          "id": "05",
+          "title": "WebServer 入门"
+        },
+        {
+          "id": "06",
+          "title": "RTOS 下的网络任务"
+        },
+        {
+          "id": "07",
+          "title": "对照 ESP32 Wi-Fi/MQTT"
+        }
+      ]
     },
     {
       "id": "hardware-online",
@@ -325,7 +755,41 @@ window.COURSE_DATA = {
       "note": "从安全、欧姆定律、R/L/C、二极管三极管 MOS、运放、开关电源，到循迹小车与原理图 / PCB 流程；面向零基础硬件岗入门，比纯模电课更「工程向」。",
       "status": "not_started",
       "progress": 0,
-      "order": 17
+      "order": 17,
+      "outline": [
+        {
+          "id": "01",
+          "title": "安全与万用表"
+        },
+        {
+          "id": "02",
+          "title": "欧姆定律与分压"
+        },
+        {
+          "id": "03",
+          "title": "R/L/C"
+        },
+        {
+          "id": "04",
+          "title": "二极管三极管 MOS"
+        },
+        {
+          "id": "05",
+          "title": "运放应用"
+        },
+        {
+          "id": "06",
+          "title": "开关电源直觉"
+        },
+        {
+          "id": "07",
+          "title": "原理图流程"
+        },
+        {
+          "id": "08",
+          "title": "循迹小车级综合"
+        }
+      ]
     },
     {
       "id": "pcb-fanyi",
@@ -350,7 +814,41 @@ window.COURSE_DATA = {
       "note": "安装 / 原理图 / 封装 / 布局布线 / 规则 / DRC / Gerber。同名课很多，优先跟「新手入门必备课」这一套；做学生板或教具小板够用。",
       "status": "not_started",
       "progress": 0,
-      "order": 18
+      "order": 18,
+      "outline": [
+        {
+          "id": "01",
+          "title": "AD 安装与界面"
+        },
+        {
+          "id": "02",
+          "title": "原理图符号与库"
+        },
+        {
+          "id": "03",
+          "title": "封装与封装库"
+        },
+        {
+          "id": "04",
+          "title": "原理图到 PCB"
+        },
+        {
+          "id": "05",
+          "title": "布局规则"
+        },
+        {
+          "id": "06",
+          "title": "布线与覆铜"
+        },
+        {
+          "id": "07",
+          "title": "DRC 与 Gerber"
+        },
+        {
+          "id": "08",
+          "title": "打样与回流检查"
+        }
+      ]
     }
   ],
   "studyPlan": "ESP32 + MicroPython（极客侠）\n  → 巴法 MQTT / 微信推送\n  → asyncio / 状态机（按需）\n并行：Mind+ × Arduino（课堂）· K230 视觉（端侧 AI）· Wokwi 仿真\n选学补强：C → 电路/模电 → STM32（二选一）→ FreeRTOS → LwIP → PCB",

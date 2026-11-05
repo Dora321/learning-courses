@@ -18,9 +18,11 @@
   const iso = (ms) => (ms ? new Date(ms).toISOString() : null);
   const statusOf = (progress) => (progress === 0 ? "not_started" : progress === 100 ? "done" : "in_progress");
 
-  // —— 进度文档：{ version: 1, updatedAt, courses: { id: { status, progress, updatedAt } } } ——
+  // —— 进度文档：{ version: 1, updatedAt, courses: { id: { status, progress, checked?, updatedAt } } } ——
+  // checked 为已勾选的大纲章节 id；本模块不认识课程大纲，只负责去重，按大纲过滤与推算进度由 app.js 完成。
 
   // 规范化任意来源的进度文档：丢弃无效记录；课程缺少时间戳时沿用文档时间戳（兼容旧版只有整体 updatedAt 的记录）。
+  // 旧版记录没有 checked 字段，原样保留为「无勾选信息」，不补空数组。
   function normalize(raw) {
     const doc = { version: 1, updatedAt: null, courses: {} };
     if (!isObject(raw) || !isObject(raw.courses)) return doc;
@@ -30,6 +32,7 @@
       if (!Number.isInteger(record.progress) || record.progress < 0 || record.progress > 100) continue;
       const stamp = time(record.updatedAt) || fallback;
       doc.courses[id] = { status: statusOf(record.progress), progress: record.progress };
+      if (Array.isArray(record.checked)) doc.courses[id].checked = [...new Set(record.checked.filter((item) => typeof item === "string"))];
       if (stamp) doc.courses[id].updatedAt = iso(stamp);
     }
     doc.updatedAt = latest(doc.courses);
@@ -40,7 +43,7 @@
     return iso(Math.max(0, ...Object.values(courseMap).map((record) => time(record.updatedAt))));
   }
 
-  // 按课程 id 合并：同一门课取 updatedAt 较新的一方；相同时保留本地。
+  // 按课程 id 合并：同一门课取 updatedAt 较新的一方整条覆盖（含 checked，不做并集）；相同时保留本地。
   function merge(local, remote) {
     const courses = {};
     const ids = new Set([...Object.keys(local.courses), ...Object.keys(remote.courses)]);
@@ -52,13 +55,15 @@
     return { version: 1, updatedAt: latest(courses), courses };
   }
 
+  const marks = (record) => (record.checked ? [...record.checked].sort().join("\n") : null);
+
   function sameCourses(a, b) {
     const ids = Object.keys(a.courses);
     if (ids.length !== Object.keys(b.courses).length) return false;
     return ids.every((id) => {
       const x = a.courses[id];
       const y = b.courses[id];
-      return y && x.progress === y.progress && time(x.updatedAt) === time(y.updatedAt);
+      return y && x.progress === y.progress && marks(x) === marks(y) && time(x.updatedAt) === time(y.updatedAt);
     });
   }
 
