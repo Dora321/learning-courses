@@ -24,3 +24,7 @@ claude-ui.log
 CODEX_PROMPT.md
 codex-last.txt
 *.pending.*
+
+# 会话提示词（与 CODEX_PROMPT.md 一致，不进仓库）
+.claude-resume-prompt.md
+IMPLEMENT_PROMPT.md

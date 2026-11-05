@@ -1,91 +1,150 @@
 # 慢慢学 · 个人课程学习站
 
-单人自用的嵌入式与硬件课程清单。按四条学习线展示 9 门课程和全部 23 个外链，记录学习状态与进度，并支持 JSON 备份迁移。课单及学习建议来自 [SOURCE_COURSES.md](SOURCE_COURSES.md)，保留来源中的讲师归属提醒、备用入口与按需学习建议。
+单人自用的 ESP32 + 端侧 AI 教学学习站。17 门课分三层：
 
-纯 HTML、CSS、JavaScript，无构建工具、npm 包、账户系统、服务器或密钥。页面无远程字体与第三方脚本，只有打开课程入口时才访问外部站点。
+- **主线**：ESP32 + MicroPython、巴法 MQTT、asyncio；Python 入门是选学前置
+- **课堂与拓展**：Mind+、K230 视觉、ESP32-S3 AI 语音、Wokwi 仿真
+- **老师补强**：C、电路、模电、STM32、FreeRTOS、LwIP、硬件入门、PCB
+
+课单共 183 个章节、50 个外链。站点按章节勾选记进度，有「本周课表」并能导出 `.ics`，还有近 12 周的学习记录，可以通过 GitHub Gist 在多台设备间同步。补强课单来自 [SOURCE_COURSES.md](SOURCE_COURSES.md)，主线和课堂拓展是自己定的。
+
+站点只用 HTML、CSS 和 JavaScript，没有构建步骤，也没有 npm 包、账户系统或服务器。页面不加载远程字体和第三方脚本。只有两种情况会访问外部站点：打开课程链接，以及配置同步后访问 `api.github.com`。
 
 ## 本地打开
 
-直接双击根目录的 **index.html** 即可使用。也可以在项目目录启动静态服务：
+直接双击根目录的 **index.html** 即可。也可以起一个静态服务：
 
 ```sh
 cd /Users/claw/Projects/learning-courses
 python3 -m http.server 8080
 ```
 
-访问 <http://localhost:8080>，按 `Ctrl+C` 停止服务。推荐日常使用固定的 HTTP 地址；`file://` 存储行为因浏览器而异，移动文件路径、切换浏览器或端口可能进入新的存储空间，迁移前请导出备份。
+然后访问 <http://localhost:8080>。日常建议固定用同一个 HTTP 地址，因为进度存在浏览器的 localStorage 里，换了地址、端口或浏览器就是另一份存储。
 
-## 记录与迁移进度
+## 进度怎么算
 
-- 进度由「课程大纲」勾选驱动：展开课程卡的「课程大纲」，学完一节勾一节，即时自动保存。进度 = 已勾选章节数 ÷ 章节总数 × 100，四舍五入；只有全部勾选才是 100%，勾了任一节至少 1%。0% 对应「待开始」，1–99% 对应「学习中」，100% 对应「已完成」。卡片上的进度条只读。
-- 旧版用滑条记下的百分比（记录里没有 `checked`）会先原样保留并在大纲里提示；勾选任一章节后改按大纲重新计算。课程数据里没有 `outline` 的课程退回旧版滑条与状态按钮。
-- 总进度为全部课程百分比的算术平均值，四舍五入；学习线进度为该线课程的平均值。
-- 进度存储键：`learning-courses-progress-v1`。同源的多个标签页会同步更新；跨设备、浏览器或网址不会自动同步。无痕会话结束或清理站点数据可能移除记录。
-- 点击「导出 JSON」下载全部进度。新设备打开本站，点击「导入 JSON」，选择备份，核对课程数量后确认。只更新匹配的课程，未包含的课程保持原状；可取消导入。
-- 导入会校验版本、课程 ID、状态、整数百分比、状态一致性和 `checked`（须为字符串数组）；带 `checked` 的记录按勾选重新推算进度，不在大纲里的章节 id 会被丢弃。未知课程 ID 忽略，错误文件整份拒绝，不会部分覆盖。最大文件大小为 1 MB。
-- 浏览器禁用存储或空间不足时，会提示保存失败；当前页仍可编辑和导出，关闭前请备份。
+- **章节勾选是唯一输入。** 展开课程卡的「课程大纲」，学完一节勾一节；也可以直接点卡片上「下一节」的「✓ 学完这节」。
+- **课程进度 = 已完成章节的分钟数 ÷ 计入章节的总分钟数。**
+  - 时长来自 B 站分 P，没有视频的章节用手填的预估值。
+  - 下面三类不计入分母：标「选读」的章节、你点了「跳过」的章节、「教学产出」。
+  - 学了任意一节至少显示 1%；还有计入的章节没学完，最多显示 99%。
+- **首屏大字只算主线**（ESP32 主线 3 门，按工时加权）。补强、课堂与拓展各自单独用小字显示。
+- **不计入的课程**仍然可以勾选，卡片上标「不计入」：
+  - Python 入门：选学前置
+  - Wokwi 仿真：选学
+  - STM32 江协：备选。STM32 二选一只计铁头山羊。
+  - LwIP：按需
+- **石群《电路》只挑 1–9 章。** 10–18 章预设为选读，所以这门课的 100% 表示「挑讲的章节学完」。
+- **「教学产出」单独统计**（例如「整理 C ↔ MicroPython 对照表」），汇总在「我正在教」分区。
 
-备份格式示例（课程可只包含一部分）：
+## 本周课表与学习记录
+
+- 点「＋ 挑几节」，从各门课的「下一节」里挑 1–5 节放进本周，也可以在卡片上点「＋ 本周」。每节可以指定星期几。
+- 学完的会在课表里划掉。上周没学完的自动顺延，标「上周顺延」。
+- 「导出 .ics」会把本周课表导出成全天事件，Mac 日历和 Outlook 双击即可导入。没指定星期几的放在周日，标「本周内」。
+- 「学习记录」根据每节的完成时间，显示近 12 周的热力图、本周完成的节数和时长、上次学习是几天前。这里不做连续打卡。
+
+## 多端同步（Mac / Windows）
+
+进度默认只存在本机浏览器。配置同步后，进度会写进你 GitHub 账号下的一个 **secret Gist**，也就是 `js/sync-config.js` 里的 `gistId`。
+
+> secret Gist 不会出现在你的 Gist 列表和搜索结果里，但它**不是私有的**：拿到地址的人不用登录就能查看。Gist 地址写在本仓库公开的 `sync-config.js` 里，所以请把它当作「半公开」，只放学习进度。
+
+配置步骤：
+
+1. 新建令牌。推荐用 [fine-grained token](https://github.com/settings/personal-access-tokens/new)，在 Account permissions 里把 `Gists` 设为 Read and write。也可以用 classic token，只勾 `gist`。
+2. 打开学习站，点右上角的同步按钮，粘贴令牌并保存。令牌只存在当前浏览器，不会写进仓库。**不要在教室或公用电脑上粘贴令牌。**
+3. Mac 和 Windows 各粘贴一次。之后：
+   - 每次改动后约 1 秒自动推送。
+   - 切回标签页、恢复联网时会自动拉取合并。
+
+合并和历史：
+
+- **按章节合并。** 每个章节记录 `{ state, at }`，合并时每个章节各自取较新的一端，课表条目也一样。所以两台电脑勾了同一门课的不同章节，都会保留。取消勾选也带时间戳，同样会同步过去。
+- **同步历史与撤销。** 同步弹窗里能看到最近 5 次同步，包括时间、设备名和完成节数，可以「恢复到此」。恢复本身也算一次新的改动，之后还能再恢复回来。设备名可以在同步弹窗里修改。
+
+## 备份与迁移
+
+- 「导出 JSON」会下载完整进度，包括章节勾选、完成时间和课表。
+- 在新设备上点「导入 JSON」并确认即可恢复。
+  - 导入只更新文件里出现、且在当前课单里存在的章节，其他章节保持原样。
+  - 无效文件会被整份拒绝。文件上限 1 MB。
+- 旧版（v1）备份和旧版本地记录会被自动升级：
+  - 勾选按 `legacyIds` 映射到新章节。
+  - 原始的本地记录另存一份在 `learning-courses-progress-v1-backup-v1`。
+
+进度文档 v2 的格式如下（localStorage、Gist、JSON 备份共用）：
 
 ```json
 {
-  "version": 1,
-  "updatedAt": "2026-11-05T12:00:00.000Z",
+  "version": 2,
   "courses": {
-    "c-wengkai": { "status": "in_progress", "progress": 29, "checked": ["01", "02"], "updatedAt": "2026-11-05T12:00:00.000Z" }
+    "stm32-tietou": { "chapters": { "tt-gpio": { "state": "done", "at": "2026-11-06T12:00:00.000Z" } } }
+  },
+  "plan": {
+    "stm32-tietou/tt-uart": { "course": "stm32-tietou", "chapter": "tt-uart", "week": "2026-W45", "day": 2, "at": "2026-11-06T12:00:00.000Z" }
   }
 }
 ```
 
-## GitHub Pages 部署
-
-建议仓库名为 `Dora321/learning-courses`，直接从根目录发布；所有资源使用相对路径，支持仓库子路径。本站尚未执行建仓或部署。
-
-1. 将本项目文件提交到 GitHub 仓库的 `main` 分支（免费账户可使用公开仓库）。
-2. 打开仓库 **Settings → Pages → Build and deployment**。
-3. Source 选择 **Deploy from a branch**，分支选择 **main**，目录选择 **/(root)**，点击 **Save**。
-4. 等待 Pages 部署完成，访问 `https://dora321.github.io/learning-courses/`。
-
-也可使用 `docs/`：将 `index.html`、`css/`、`js/`、`data/`、`SOURCE_COURSES.md` 与 `.nojekyll` 一起复制到 `docs/`，然后在 Pages 中选择 `main` 的 `/docs`。以后更新源文件也要同步这份副本，因此本项目优先推荐根目录。
-
-发布方式参考 [GitHub 官方 Pages 配置文档](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。`.nojekyll` 用于按原样发布静态文件。
+其中 `state` 取 `done`、`skipped` 或 `none`；`day` 为 0–6，0 表示周一，`null` 表示「本周内」。
 
 ## 修改课程
 
-以 `SOURCE_COURSES.md` 为来源。修改后，在根目录执行：
+唯一的数据来源是 **`data/courses.source.json`**，里面包括分层、学习线、课程、章节、链接和路线。改完之后运行：
 
 ```sh
-python3 scripts/sync_courses.py
+python3 scripts/build_data.py            # 校验并生成 js/courses-data.js
+python3 scripts/build_data.py --check    # 只校验；生成结果和仓库里的不一致时退出码为 1
+HTTPS_PROXY=http://127.0.0.1:7897 python3 scripts/build_data.py --refresh   # 重新拉取 B 站分 P，提示 P 数或时长的变化
 ```
 
-该脚本使用 Python 标准库，生成 `data/courses.json` 及 `js/courses-data.js`。HTTP/Pages 优先读取 JSON；直接打开本地文件时读取内容一致的 JS 快照，避免浏览器阻止 `file://` 下的 JSON 请求。两份生成文件请一起提交。无需在打开或部署时运行脚本。
+脚本只用 Python 标准库。B 站分 P 缓存在 `data/bilibili-pages.json`，所以离线也能构建。它会校验以下内容：
 
-脚本按当前 9 门课的序号映射稳定 ID 和入口标签；新增课程或增删链接时，请同时调整脚本中的映射与页面统计说明。课程 ID 与本地记录关联，应保持稳定。状态初始为 `not_started`，进度为 `0`；更新课单不会主动清除已保存的个人进度。
+- 章节 id 全站唯一
+- `order` 连续
+- 二选一分组里只有一门 `role: "core"`
+- P 范围不越界
+- 前置课程和路线里引用的课程存在
+- 每门课都有一个 `primary` 链接
+
+章节 id 是语义化的（如 `tt-gpio`），和你的勾选记录绑定，**改名会让旧勾选对不上**。确实要改名时，在课程的 `legacyIds` 里写上旧 id 到新 id 的映射。
+
+## 测试
+
+```sh
+node --test tests/model.test.mjs   # 进度模型：合并、升级、口径、周编号、.ics
+node tests/smoke.mjs               # 本机 Chrome 无头冒烟
+```
+
+冒烟测试会在桌面 1440、手机 390 以及浅色、深色下走一遍关键路径，并截图到 `/tmp/manmanxue-smoke`。它不需要 npm 包，也不会访问 GitHub。
+
+## GitHub Pages 部署
+
+所有资源都用相对路径，可以直接从仓库根目录发布：
+
+1. 打开 **Settings → Pages → Build and deployment**。
+2. Source 选 **Deploy from a branch**，分支选 `main`，目录选 `/(root)`。
+
+`.nojekyll` 用来让 Pages 按原样发布静态文件。
 
 ## 文件结构
 
 ```text
-index.html               页面结构与导入确认框
-css/style.css            纸感布局与手机样式
-js/app.js                渲染、状态联动、本地保存与备份迁移
-js/courses-data.js       自动生成的本地直开数据快照与学习路线
-data/courses.json        解析后的 9 门课程，包含全部入口
-scripts/sync_courses.py  来源解析与数据同步工具（仅维护时使用）
-SOURCE_COURSES.md        原始课单
-DEPLOY.md               部署交接说明
-.nojekyll               静态发布标记
+index.html                 页面结构与弹窗
+css/style.css              样式：中性底色 + 单一强调色，明暗自适应
+js/model.js                进度模型（纯函数）：v2 文档、按章节合并、加权口径、课表、热力图、.ics
+js/sync.js                 GitHub Gist 同步：拉取 → 合并 → 推送，同步历史
+js/app.js                  渲染与交互
+js/sync-config.js          Gist 配置（gistId 不要改）
+js/courses-data.js         由 scripts/build_data.py 生成，请勿手改
+data/courses.source.json   课程数据唯一来源
+data/bilibili-pages.json   B 站分 P 缓存
+scripts/build_data.py      校验与生成脚本
+tests/                     单元测试与冒烟测试
+SOURCE_COURSES.md          补强课单原文
+EVALUATION.md              评估报告与路线图
+IMPLEMENTATION.md          P0 / P1 落地说明
 ```
 
-课程链接按来源保留，不保证第三方站点永久可访问。B 站反爬、登录要求或课程上下架可能影响外链，本站的课单与进度功能不受影响。
-
-
-## 多端同步（Mac / Windows）
-
-进度默认存在本机浏览器；配置同步后，会写入你 GitHub 账号下的**私有 Gist**，换电脑打开同一站点即可共用。
-
-1. 打开 [GitHub Token 设置](https://github.com/settings/tokens)，新建 classic token，只勾选 **gist**；或 fine-grained token，给 Gists **Read and write**。
-2. 打开学习站，点右上角「同步」，粘贴 token 并保存（只存在当前浏览器，不会进仓库）。
-3. Mac 和 Windows 各贴一次同一个 token 即可。改进度后约 1 秒自动上传；切回标签页会拉取合并。
-4. 合并规则：按课程 id 合并，同一门课取 `updatedAt` 较新的一端整条覆盖（包括 `checked`，不做并集）。
-
-仍可用「导出 / 导入 JSON」做离线备份。
+课程链接会尽量保留原来源，但不保证第三方站点永久可访问。课程上下架不会影响本站的课单和进度功能。
