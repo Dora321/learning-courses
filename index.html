@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ee">
+  <meta name="description" content="我的嵌入式与硬件学习清单：四条学习线、九门课程，记录每一点进步。">
+  <title>慢慢学 · 个人课程学习站</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232f5847'/%3E%3Cpath d='M10 28V12h9v16m2-16h9v16H10' fill='none' stroke='%23f5f4ee' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/courses-data.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#courses">跳到课程清单</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./" aria-label="慢慢学首页"><span class="brand-mark" aria-hidden="true">学</span><span>慢慢学<span class="brand-sub">个人课程学习站</span></span></a>
+    <div class="header-tools">
+      <button type="button" id="export-button" class="button button-quiet"><span aria-hidden="true">↓</span> 导出 JSON</button>
+      <button type="button" id="import-button" class="button button-quiet"><span aria-hidden="true">↑</span> 导入 JSON</button>
+      <input type="file" id="import-file" accept=".json,application/json" hidden>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy"><p class="eyebrow"><span class="tiny-line"></span> 我的学习计划 / 嵌入式与硬件</p>
+        <h1 id="hero-title">把好奇，<br>一点点做成<span>本领。</span></h1>
+        <p class="hero-description">从一行 C 代码，到一块自己的电路板。<br>沿着四条学习线，按自己的节奏慢慢来。</p>
+        <a class="hero-link" href="#courses">开始今天的学习 <span aria-hidden="true">↗</span></a>
+      </div>
+      <section class="overview" aria-labelledby="overview-title">
+        <div class="overview-top"><h2 id="overview-title">学习总览</h2><span class="local-badge"><i aria-hidden="true"></i> 本地记录</span></div>
+        <div class="progress-heading"><div><strong id="overall-value">0</strong><span class="percent">%</span></div><span class="progress-caption">每一点进步，都算数</span></div>
+        <progress id="overall-progress" max="100" value="0" aria-label="所有课程的平均进度">0%</progress>
+        <p class="progress-method">按 9 门课程的进度平均计算</p>
+        <div class="stats"><div><strong id="done-count">0<span> / 9</span></strong><span>已完成</span></div><div><strong id="active-count">0</strong><span>学习中</span></div><div><strong id="pending-count">9</strong><span>待开始</span></div></div>
+        <p class="save-state" id="save-state" role="status">进度自动保存在此浏览器</p>
+      </section>
+    </section>
+
+    <section class="roadmap" aria-labelledby="roadmap-title">
+      <div class="section-intro"><div><p class="eyebrow">先有方向，再慢慢出发</p><h2 id="roadmap-title">建议学习顺序</h2></div><span class="source-caption">摘自原始课单</span></div>
+      <ol class="route-main" id="study-route"></ol>
+      <p class="route-branch" id="study-branch"></p>
+      <details class="route-details"><summary>这条路线，如何服务我的硬件教学？</summary><p id="study-context"></p></details>
+    </section>
+
+    <section class="library" id="courses" aria-labelledby="library-title">
+      <div class="library-heading"><div><p class="eyebrow">把知识变成手上的能力</p><h2 id="library-title">我的课程清单 <span class="count-label">09</span></h2></div><p>不必一口气学完，先完成今天的一点。</p></div>
+      <nav class="track-nav" aria-label="跳转到学习线">
+        <a href="#track-1"><span>01</span> 语言与电路基础</a><a href="#track-2"><span>02</span> STM32嵌入式</a><a href="#track-3"><span>03</span> FreeRTOS与网络</a><a href="#track-4"><span>04</span> 硬件与PCB</a>
+      </nav>
+      <div id="course-groups"></div>
+    </section>
+    <aside class="backup-note"><span class="backup-icon" aria-hidden="true">↥</span><div><h2>让进度，跟你一起走。</h2><p>换设备前导出 JSON，在新设备导入即可接着学。进度保存在当前浏览器，不会自动跨设备同步。</p></div><button type="button" id="backup-button" class="button button-outline">备份学习进度 <span aria-hidden="true">↗</span></button></aside>
+    <noscript><p class="error-banner">请启用 JavaScript 以查看课程并保存进度。你也可以直接阅读 <a href="SOURCE_COURSES.md">原始课单</a>。</p></noscript>
+    <p id="error-banner" class="error-banner" role="alert" hidden></p>
+  </main>
+  <footer class="site-footer wrap"><span>慢慢学，学会一点是一点。</span><a href="SOURCE_COURSES.md">课单来源 · 豆包推荐 / 2026.11.05 <span aria-hidden="true">↗</span></a></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="import-dialog" aria-labelledby="import-title" aria-describedby="import-description">
+    <form method="dialog"><p class="eyebrow">迁移学习记录</p><h2 id="import-title">导入进度备份</h2><p id="import-description"></p><p class="dialog-hint">仅更新文件中匹配的课程；其他课程保持原状。建议先导出当前进度作为备份。</p><div class="dialog-actions"><button class="button button-quiet" value="cancel">取消</button><button class="button button-primary" id="confirm-import" value="confirm">确认导入</button></div></form>
+  </dialog>
+</body>
+</html>
