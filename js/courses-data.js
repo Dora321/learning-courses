@@ -1,856 +1,3409 @@
-// 自动维护：含 outline 大纲，勾选章节驱动进度。
+// 自动生成：python3 scripts/build_data.py（来源 data/courses.source.json），请勿手改。
 window.COURSE_DATA = {
-  "courses": [
+ "schema": 2,
+ "sources": "主线与课堂拓展：自定；老师补强：豆包推荐课单（2026.11.05，见 SOURCE_COURSES.md）",
+ "tiers": [
+  {
+   "id": "main",
+   "name": "主线",
+   "title": "主线 · ESP32 + MicroPython",
+   "caption": "教学主线：先把 ESP32 讲透，再接物联网与多任务。Python 入门是选学前置，不计入。",
+   "countsAs": "main",
+   "layout": "flat"
+  },
+  {
+   "id": "extend",
+   "name": "课堂与拓展",
+   "title": "课堂与拓展",
+   "caption": "课堂教具、端侧 AI 与仿真，按备课需要点开。仿真实验室不计入。",
+   "countsAs": "extend",
+   "layout": "flat"
+  },
+  {
+   "id": "upskill",
+   "name": "老师补强",
+   "title": "老师补强",
+   "caption": "默认必修；标「选学 / 按需 / 备选」的不计入。STM32 只计铁头山羊，江协是备选；石群只挑 1–9 章，LwIP 按需。",
+   "countsAs": "upskill",
+   "layout": "tracks"
+  }
+ ],
+ "tracks": [
+  {
+   "id": "esp32",
+   "tier": "main",
+   "name": "ESP32 主线（MicroPython）",
+   "caption": "极客侠 27 篇 + 官方文档 + 物联网 + 多任务",
+   "color": "violet"
+  },
+  {
+   "id": "classroom",
+   "tier": "extend",
+   "name": "课堂工具",
+   "caption": "Mind+ × Arduino，日常课堂教具",
+   "color": "blue"
+  },
+  {
+   "id": "edge-ai",
+   "tier": "extend",
+   "name": "端侧 AI",
+   "caption": "K230 视觉 + ESP32-S3 大模型语音",
+   "color": "teal"
+  },
+  {
+   "id": "sim",
+   "tier": "extend",
+   "name": "仿真实验室",
+   "caption": "烧板前的浏览器练手场",
+   "color": "orange"
+  },
+  {
+   "id": "basics",
+   "tier": "upskill",
+   "name": "语言与电路基础",
+   "caption": "读懂代码，也读懂电路",
+   "color": "pink"
+  },
+  {
+   "id": "stm32",
+   "tier": "upskill",
+   "name": "STM32 嵌入式",
+   "caption": "二选一：只计铁头山羊，江协为备选（可勾选，不计入）",
+   "color": "amber"
+  },
+  {
+   "id": "rtos-net",
+   "tier": "upskill",
+   "name": "FreeRTOS 与网络",
+   "caption": "理解任务协作与设备联网",
+   "color": "cyan"
+  },
+  {
+   "id": "hw-pcb",
+   "tier": "upskill",
+   "name": "硬件与 PCB",
+   "caption": "从器件到自己的小板",
+   "color": "green"
+  }
+ ],
+ "courses": [
+  {
+   "id": "python-songtian",
+   "track": "esp32",
+   "order": 1,
+   "short": "Python 入门",
+   "title": "Python 语言程序设计",
+   "teacher": "嵩天 · 北京理工大学",
+   "platform": "中国大学 MOOC / 哔哩哔哩",
+   "role": "elective",
+   "roleLabel": "选学前置",
+   "links": [
     {
-      "id": "esp32-geeksman-mpy",
-      "track": "ESP32主线（MicroPython）",
-      "title": "ESP32 + MicroPython 系统教程",
-      "teacher": "极客侠 / MicroPython 官方",
-      "platform": "极客侠文档 / 官方文档",
-      "urls": [
-        {
-          "label": "极客侠文档",
-          "url": "https://docs.geeksman.com/esp32/MicroPython/"
-        },
-        {
-          "label": "极客侠系列",
-          "url": "https://geeksman.com/series/esp32-micropython/"
-        },
-        {
-          "label": "官方 ESP32 速查",
-          "url": "https://docs.micropython.org/en/latest/esp32/quickref.html"
-        },
-        {
-          "label": "固件下载",
-          "url": "https://micropython.org/download/ESP32_GENERIC/"
-        }
-      ],
-      "note": "教学主线。配合库内大纲、知识体系与 ESP32-AI科创课程总览。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 1,
-      "outline": [
-        {
-          "id": "01",
-          "title": "开发环境与固件烧录"
-        },
-        {
-          "id": "02",
-          "title": "REPL 与 Thonny/mpremote"
-        },
-        {
-          "id": "03",
-          "title": "GPIO 点灯与按键"
-        },
-        {
-          "id": "04",
-          "title": "PWM 呼吸灯与舵机"
-        },
-        {
-          "id": "05",
-          "title": "ADC 读模拟量"
-        },
-        {
-          "id": "06",
-          "title": "UART 串口通信"
-        },
-        {
-          "id": "07",
-          "title": "I2C（OLED/传感器）"
-        },
-        {
-          "id": "08",
-          "title": "SPI 外设"
-        },
-        {
-          "id": "09",
-          "title": "定时器与中断直觉"
-        },
-        {
-          "id": "10",
-          "title": "文件系统与模块化"
-        },
-        {
-          "id": "11",
-          "title": "Wi-Fi 联网基础"
-        },
-        {
-          "id": "12",
-          "title": "综合小项目验收"
-        }
-      ]
+     "label": "中国大学 MOOC",
+     "url": "https://www.icourse163.org/course/BIT-268001",
+     "kind": "official",
+     "primary": true
     },
     {
-      "id": "esp32-bemfa-mqtt",
-      "track": "ESP32主线（MicroPython）",
-      "title": "巴法云 MQTT 与微信推送",
-      "teacher": "巴法云 + 自有课例",
-      "platform": "巴法文档 / 哔哩哔哩",
-      "urls": [
-        {
-          "label": "巴法 MQTT 文档",
-          "url": "https://cloud.bemfa.com/docs/src/mqtt.html"
-        },
-        {
-          "label": "B站示例",
-          "url": "https://www.bilibili.com/video/BV1jigHzeEYk/"
-        }
-      ],
-      "note": "物联网实战；对应讲义 L17–L25 与库内「ESP32 + 巴法云 MQTT + 微信推送」。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 2,
-      "outline": [
-        {
-          "id": "01",
-          "title": "MQTT 概念与主题设计"
-        },
-        {
-          "id": "02",
-          "title": "巴法云账号与设备创建"
-        },
-        {
-          "id": "03",
-          "title": "MicroPython 连接巴法"
-        },
-        {
-          "id": "04",
-          "title": "远程开关灯实战"
-        },
-        {
-          "id": "05",
-          "title": "传感器上报与微信推送"
-        },
-        {
-          "id": "06",
-          "title": "断网重连与心跳"
-        },
-        {
-          "id": "07",
-          "title": "课堂演示课例打磨"
-        }
-      ]
+     "label": "B 站转载 · 全 56 讲",
+     "url": "https://www.bilibili.com/video/BV1JL4y1x7xC/",
+     "kind": "video",
+     "meta": "56P · 15.8h"
     },
     {
-      "id": "esp32-asyncio-fsm",
-      "track": "ESP32主线（MicroPython）",
-      "title": "MicroPython 异步与状态机",
-      "teacher": "MicroPython 官方 + 自有笔记",
-      "platform": "官方文档 / Obsidian",
-      "urls": [
-        {
-          "label": "uasyncio 文档",
-          "url": "https://docs.micropython.org/en/latest/library/asyncio.html"
-        }
-      ],
-      "note": "进阶概念；库内有多篇 asyncio/状态机笔记，建议指定一篇总入口后精读。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 3,
-      "outline": [
-        {
-          "id": "01",
-          "title": "阻塞 vs 非阻塞"
-        },
-        {
-          "id": "02",
-          "title": "ticks_ms 协作式调度"
-        },
-        {
-          "id": "03",
-          "title": "uasyncio 任务与 sleep"
-        },
-        {
-          "id": "04",
-          "title": "队列/事件传递"
-        },
-        {
-          "id": "05",
-          "title": "按键状态机"
-        },
-        {
-          "id": "06",
-          "title": "多模块仲裁架构"
-        },
-        {
-          "id": "07",
-          "title": "摄像头+Wi-Fi 卡顿案例复盘"
-        }
-      ]
-    },
-    {
-      "id": "arduino-mindplus",
-      "track": "课堂工具",
-      "title": "Arduino UNO + Mind+",
-      "teacher": "Mind+ / Arduino",
-      "platform": "Mind+ 官网",
-      "urls": [
-        {
-          "label": "Mind+ 官网",
-          "url": "https://mindplus.cc/"
-        }
-      ],
-      "note": "课堂教具线；配合智慧停车场踩坑笔记。Arduino 入门 BV 待钉。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 4,
-      "outline": [
-        {
-          "id": "01",
-          "title": "Mind+ 界面与扩展库"
-        },
-        {
-          "id": "02",
-          "title": "UNO 板型与串口驱动"
-        },
-        {
-          "id": "03",
-          "title": "图形化：灯/蜂鸣器/超声波"
-        },
-        {
-          "id": "04",
-          "title": "中文显示与字符串长度坑"
-        },
-        {
-          "id": "05",
-          "title": "智慧停车场项目拆解"
-        },
-        {
-          "id": "06",
-          "title": "上传与 COM 口排错"
-        },
-        {
-          "id": "07",
-          "title": "与 ESP32 对照实验"
-        }
-      ]
-    },
-    {
-      "id": "k230-canmv",
-      "track": "端侧 AI",
-      "title": "K230 CanMV 端侧视觉",
-      "teacher": "嘉楠 / CanMV",
-      "platform": "哔哩哔哩 / Kendryte 文档",
-      "urls": [
-        {
-          "label": "B站 MicroPython 上手",
-          "url": "https://www.bilibili.com/video/BV1BWUUYaEXv/"
-        },
-        {
-          "label": "YOLOv8n 检测示例",
-          "url": "https://www.kendryte.com/k230_canmv/zh/main/example/ai/yolov8n_detection.html"
-        },
-        {
-          "label": "AI 推理入门",
-          "url": "https://www.kendryte.com/ai_docs/zh/main/快速入门K230_AI推理流程.html"
-        },
-        {
-          "label": "电赛视觉速成",
-          "url": "https://www.bilibili.com/video/BV1Z6jJzyEmM/"
-        }
-      ],
-      "note": "端侧视觉；对应讲义 L28–L35 与植物视觉/刷机日志。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 5,
-      "outline": [
-        {
-          "id": "01",
-          "title": "刷机与 GUI 验收分阶段"
-        },
-        {
-          "id": "02",
-          "title": "CanMV IDE / MicroPython 入门"
-        },
-        {
-          "id": "03",
-          "title": "摄像头预览与拍照"
-        },
-        {
-          "id": "04",
-          "title": "YOLOv8n 检测跑通"
-        },
-        {
-          "id": "05",
-          "title": "自训/替换模型流程"
-        },
-        {
-          "id": "06",
-          "title": "植物视觉闭环课例"
-        },
-        {
-          "id": "07",
-          "title": "课堂安全与算力边界"
-        }
-      ]
-    },
-    {
-      "id": "sim-lab-wokwi",
-      "track": "仿真实验室",
-      "title": "浏览器仿真与 8 周机器人路线",
-      "teacher": "Wokwi / Tinkercad / robotips",
-      "platform": "网页工具",
-      "urls": [
-        {
-          "label": "Wokwi",
-          "url": "https://wokwi.com"
-        },
-        {
-          "label": "Tinkercad Circuits",
-          "url": "https://www.tinkercad.com/circuits"
-        },
-        {
-          "label": "ESP Labs",
-          "url": "https://esp-labs-web.vercel.app"
-        },
-        {
-          "label": "robotips 路线",
-          "url": "https://robotips.app"
-        }
-      ],
-      "note": "练手与备课演示；详见库内 8 周机器人 3D 交互学习路线笔记。可不计入主线加权。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 6,
-      "outline": [
-        {
-          "id": "01",
-          "title": "Wokwi ESP32 工程创建"
-        },
-        {
-          "id": "02",
-          "title": "串口与传感器仿真"
-        },
-        {
-          "id": "03",
-          "title": "Tinkercad 电路搭接"
-        },
-        {
-          "id": "04",
-          "title": "esp-labs 在线实验"
-        },
-        {
-          "id": "05",
-          "title": "robotips 8 周路线通览"
-        },
-        {
-          "id": "06",
-          "title": "选 1 周做成备课演示"
-        }
-      ]
-    },
-    {
-      "id": "c-wengkai",
-      "track": "老师补强 · 语言与电路基础",
-      "title": "程序设计入门——C语言",
-      "teacher": "翁恺 · 浙江大学",
-      "platform": "中国大学 MOOC / 哔哩哔哩",
-      "urls": [
-        {
-          "label": "中国大学 MOOC",
-          "url": "https://www.icourse163.org/course/ZJU-199001"
-        },
-        {
-          "label": "B 站完整版",
-          "url": "https://www.bilibili.com/video/BV1ME411h75N/"
-        },
-        {
-          "label": "B 站另一套",
-          "url": "https://www.bilibili.com/video/BV1e7411y7Ky/"
-        }
-      ],
-      "note": "国家精品在线开放课；零基础 C 入门，嵌入式必会。官方以 MOOC 为准，B 站为自学镜像。后续还有《C语言程序设计进阶》。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 10,
-      "outline": [
-        {
-          "id": "01",
-          "title": "计算思维与第一个程序"
-        },
-        {
-          "id": "02",
-          "title": "变量与数据类型"
-        },
-        {
-          "id": "03",
-          "title": "分支与循环"
-        },
-        {
-          "id": "04",
-          "title": "数组"
-        },
-        {
-          "id": "05",
-          "title": "函数与模块化"
-        },
-        {
-          "id": "06",
-          "title": "指针入门（选学）"
-        },
-        {
-          "id": "07",
-          "title": "综合练习与 MicroPython 对照表"
-        }
-      ]
-    },
-    {
-      "id": "analog-zheng",
-      "track": "老师补强 · 语言与电路基础",
-      "title": "模拟电子技术基础",
-      "teacher": "郑益慧 · 上海交通大学",
-      "platform": "哔哩哔哩",
-      "urls": [
-        {
-          "label": "B 站 4K 版",
-          "url": "https://www.bilibili.com/video/BV1Gt411b7Zq/"
-        },
-        {
-          "label": "B 站 1080P 版",
-          "url": "https://www.bilibili.com/video/BV1Kh4y127ay/"
-        }
-      ],
-      "note": "经典模电公开课，二极管 / BJT / MOS / 放大 / 反馈 / 运放 / 振荡与电源。适合有一点电路基础后再跟；教材多配童诗白、华成英《模拟电子技术基础》。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 11,
-      "outline": [
-        {
-          "id": "01",
-          "title": "二极管与整流"
-        },
-        {
-          "id": "02",
-          "title": "BJT 放大"
-        },
-        {
-          "id": "03",
-          "title": "MOS 开关与放大"
-        },
-        {
-          "id": "04",
-          "title": "反馈与稳定性"
-        },
-        {
-          "id": "05",
-          "title": "运算放大器"
-        },
-        {
-          "id": "06",
-          "title": "振荡与电源"
-        },
-        {
-          "id": "07",
-          "title": "模电在传感器调理中的用法"
-        }
-      ]
-    },
-    {
-      "id": "circuits-shiqun",
-      "track": "老师补强 · 语言与电路基础",
-      "title": "《电路》（邱关源）",
-      "teacher": "石群",
-      "platform": "哔哩哔哩 / 网易公开课",
-      "urls": [
-        {
-          "label": "网易公开课 · 80 集",
-          "url": "https://open.163.com/newview/movie/free?pid=PESEP49N5"
-        },
-        {
-          "label": "B 站完整版",
-          "url": "https://www.bilibili.com/video/BV1F7411a7iV/"
-        },
-        {
-          "label": "B 站 4K 修复版",
-          "url": "https://www.bilibili.com/video/BV1jHLGzDEJe/"
-        }
-      ],
-      "note": "配套邱关源《电路》第五 / 六版；从基尔霍夫、等效变换讲到相量、三相、二端口等，偏本科电路理论 + 考研。对做科创硬件：不必全啃，挑电阻网络、运放电阻电路、一阶暂态、正弦稳态即可。 讲师学校归属未确认；勿与于歆杰《电路原理》混淆。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 12,
-      "outline": [
-        {
-          "id": "01",
-          "title": "基尔霍夫定律"
-        },
-        {
-          "id": "02",
-          "title": "等效变换与戴维南"
-        },
-        {
-          "id": "03",
-          "title": "运放电阻电路"
-        },
-        {
-          "id": "04",
-          "title": "一阶暂态"
-        },
-        {
-          "id": "05",
-          "title": "正弦稳态与相量"
-        },
-        {
-          "id": "06",
-          "title": "三相与二端口（选读）"
-        },
-        {
-          "id": "07",
-          "title": "科创硬件挑讲复盘"
-        }
-      ]
-    },
-    {
-      "id": "stm32-tietou",
-      "track": "老师补强 · STM32嵌入式",
-      "title": "STM32 入门教程【新版】",
-      "teacher": "铁头山羊",
-      "platform": "哔哩哔哩",
-      "urls": [
-        {
-          "label": "B 站新版合集",
-          "url": "https://www.bilibili.com/video/BV11X4y1j7si/"
-        },
-        {
-          "label": "B 站第 4 版",
-          "url": "https://www.bilibili.com/video/BV1pw41187Sy/"
-        }
-      ],
-      "note": "GPIO / 串口 / I2C / SPI / 中断 / EXTI / 时钟 / 定时器 / ADC；讲解偏底层与封装习惯。另有更长的「第 4 版」系列（如 BV1pw41187Sy 起），入门优先跟【新版】合集即可。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 13,
-      "outline": [
-        {
-          "id": "01",
-          "title": "工程模板与下载调试"
-        },
-        {
-          "id": "02",
-          "title": "GPIO"
-        },
-        {
-          "id": "03",
-          "title": "USART"
-        },
-        {
-          "id": "04",
-          "title": "I2C"
-        },
-        {
-          "id": "05",
-          "title": "SPI"
-        },
-        {
-          "id": "06",
-          "title": "EXTI 中断"
-        },
-        {
-          "id": "07",
-          "title": "时钟树"
-        },
-        {
-          "id": "08",
-          "title": "定时器/PWM"
-        },
-        {
-          "id": "09",
-          "title": "ADC"
-        },
-        {
-          "id": "10",
-          "title": "封装习惯小结"
-        }
-      ]
-    },
-    {
-      "id": "stm32-jiangxie",
-      "track": "老师补强 · STM32嵌入式",
-      "title": "STM32 入门教程-2023版",
-      "teacher": "江协科技",
-      "platform": "哔哩哔哩 / 江协科技",
-      "urls": [
-        {
-          "label": "B 站 2023 版",
-          "url": "https://www.bilibili.com/video/BV1th411z7sn/"
-        },
-        {
-          "label": "江协官网",
-          "url": "https://jiangxiekeji.com/"
-        },
-        {
-          "label": "配套资料",
-          "url": "https://jiangxiekeji.com/download.html"
-        }
-      ],
-      "note": "B 站 STM32 零基础最主流之一；标准库手打、带中文字幕，配套套件与疑难解答页。与铁头山羊二选一精学即可（江协更「全基础」，铁头山羊偏模块化讲解）。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 14,
-      "outline": [
-        {
-          "id": "01",
-          "title": "标准库工程搭建"
-        },
-        {
-          "id": "02",
-          "title": "GPIO 与流水灯"
-        },
-        {
-          "id": "03",
-          "title": "按键与外部中断"
-        },
-        {
-          "id": "04",
-          "title": "USART 收发"
-        },
-        {
-          "id": "05",
-          "title": "定时器与 PWM"
-        },
-        {
-          "id": "06",
-          "title": "ADC"
-        },
-        {
-          "id": "07",
-          "title": "I2C/OLED"
-        },
-        {
-          "id": "08",
-          "title": "SPI"
-        },
-        {
-          "id": "09",
-          "title": "综合外设小车/仪表"
-        }
-      ]
-    },
-    {
-      "id": "freertos-wei",
-      "track": "老师补强 · FreeRTOS与网络",
-      "title": "FreeRTOS 入门与工程实践",
-      "teacher": "韦东山 · 百问网",
-      "platform": "哔哩哔哩 / 百问网",
-      "urls": [
-        {
-          "label": "B 站课程",
-          "url": "https://www.bilibili.com/video/BV1Jw411i7Fz/"
-        },
-        {
-          "label": "百问网专栏",
-          "url": "https://100ask.net/course/134"
-        }
-      ],
-      "note": "基于 STM32、以项目为导向；任务 / 队列 / 信号量 / 互斥 / 事件组 / 任务通知 / 软件定时器。有 ESP32 / MicroPython 基础后再补 RTOS 概念会更顺。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 15,
-      "outline": [
-        {
-          "id": "01",
-          "title": "为何需要 RTOS"
-        },
-        {
-          "id": "02",
-          "title": "任务创建与调度"
-        },
-        {
-          "id": "03",
-          "title": "队列"
-        },
-        {
-          "id": "04",
-          "title": "信号量与互斥"
-        },
-        {
-          "id": "05",
-          "title": "事件组与任务通知"
-        },
-        {
-          "id": "06",
-          "title": "软件定时器"
-        },
-        {
-          "id": "07",
-          "title": "移植到 STM32 工程"
-        },
-        {
-          "id": "08",
-          "title": "映射到 asyncio 直觉"
-        }
-      ]
-    },
-    {
-      "id": "lwip-alientek",
-      "track": "老师补强 · FreeRTOS与网络",
-      "title": "基于 STM32 的 LwIP 网络教学",
-      "teacher": "正点原子",
-      "platform": "哔哩哔哩 / 正点原子官网 / 原子哥",
-      "urls": [
-        {
-          "label": "官方新版资料",
-          "url": "https://www.openedv.com/docs/book-videos/zdyzshipin/4free/newlwIP.html"
-        },
-        {
-          "label": "B 站官方空间",
-          "url": "https://space.bilibili.com/394620890"
-        },
-        {
-          "label": "原子哥平台",
-          "url": "https://www.yuanzige.com/"
-        },
-        {
-          "label": "B 站旧版合集",
-          "url": "https://www.bilibili.com/video/BV1zx411d7eC/"
-        }
-      ],
-      "note": "以太网 / MAC·PHY、裸机与 RTOS 移植、UDP/TCP、WebServer 等。新版以官方空间 / 原子哥为准；单条 BV 号随上架变动，进空间搜「lwIP」即可。对你做 ESP32 Wi‑Fi/MQTT 教学：可作协议层对照，不必先买正点板。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 16,
-      "outline": [
-        {
-          "id": "01",
-          "title": "以太网硬件与 PHY"
-        },
-        {
-          "id": "02",
-          "title": "LwIP 移植概览"
-        },
-        {
-          "id": "03",
-          "title": "UDP 收发"
-        },
-        {
-          "id": "04",
-          "title": "TCP 客户端/服务端"
-        },
-        {
-          "id": "05",
-          "title": "WebServer 入门"
-        },
-        {
-          "id": "06",
-          "title": "RTOS 下的网络任务"
-        },
-        {
-          "id": "07",
-          "title": "对照 ESP32 Wi-Fi/MQTT"
-        }
-      ]
-    },
-    {
-      "id": "hardware-online",
-      "track": "老师补强 · 硬件与PCB",
-      "title": "硬件工程师零基础入门",
-      "teacher": "电子online",
-      "platform": "哔哩哔哩",
-      "urls": [
-        {
-          "label": "B 站 · 125 讲",
-          "url": "https://www.bilibili.com/video/BV1gHSyY3E6q/"
-        }
-      ],
-      "note": "从安全、欧姆定律、R/L/C、二极管三极管 MOS、运放、开关电源，到循迹小车与原理图 / PCB 流程；面向零基础硬件岗入门，比纯模电课更「工程向」。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 17,
-      "outline": [
-        {
-          "id": "01",
-          "title": "安全与万用表"
-        },
-        {
-          "id": "02",
-          "title": "欧姆定律与分压"
-        },
-        {
-          "id": "03",
-          "title": "R/L/C"
-        },
-        {
-          "id": "04",
-          "title": "二极管三极管 MOS"
-        },
-        {
-          "id": "05",
-          "title": "运放应用"
-        },
-        {
-          "id": "06",
-          "title": "开关电源直觉"
-        },
-        {
-          "id": "07",
-          "title": "原理图流程"
-        },
-        {
-          "id": "08",
-          "title": "循迹小车级综合"
-        }
-      ]
-    },
-    {
-      "id": "pcb-fanyi",
-      "track": "老师补强 · 硬件与PCB",
-      "title": "Altium Designer PCB 设计教程",
-      "teacher": "凡亿教育",
-      "platform": "哔哩哔哩 / 凡亿课堂",
-      "urls": [
-        {
-          "label": "B 站 AD22/23 入门",
-          "url": "https://www.bilibili.com/video/BV11a411x75o/"
-        },
-        {
-          "label": "B 站两层板实战",
-          "url": "https://www.bilibili.com/video/BV1CJ411G7At/"
-        },
-        {
-          "label": "凡亿课堂",
-          "url": "https://www.fanyedu.com/"
-        }
-      ],
-      "note": "安装 / 原理图 / 封装 / 布局布线 / 规则 / DRC / Gerber。同名课很多，优先跟「新手入门必备课」这一套；做学生板或教具小板够用。",
-      "status": "not_started",
-      "progress": 0,
-      "order": 18,
-      "outline": [
-        {
-          "id": "01",
-          "title": "AD 安装与界面"
-        },
-        {
-          "id": "02",
-          "title": "原理图符号与库"
-        },
-        {
-          "id": "03",
-          "title": "封装与封装库"
-        },
-        {
-          "id": "04",
-          "title": "原理图到 PCB"
-        },
-        {
-          "id": "05",
-          "title": "布局规则"
-        },
-        {
-          "id": "06",
-          "title": "布线与覆铜"
-        },
-        {
-          "id": "07",
-          "title": "DRC 与 Gerber"
-        },
-        {
-          "id": "08",
-          "title": "打样与回流检查"
-        }
-      ]
+     "label": "Python 官方教程（中文）",
+     "url": "https://docs.python.org/zh-cn/3/tutorial/index.html",
+     "kind": "docs"
     }
+   ],
+   "note": "极客侠系列默认你会一点 Python。已有基础可直接跳过；只想补语法，挑 1–7 章即可，turtle 那章顺手能当小学课堂素材。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "py-intro",
+     "title": "程序设计基本方法与开发环境（温度转换）",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       1,
+       6
+      ],
+      "label": "P1–6",
+      "start": 1,
+      "videoMinutes": 97
+     },
+     "kind": "learn",
+     "minutes": 97,
+     "exact": true
+    },
+    {
+     "id": "py-turtle",
+     "title": "基本图形绘制：turtle 画蟒蛇",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       7,
+       11
+      ],
+      "label": "P7–11",
+      "start": 7,
+      "videoMinutes": 89
+     },
+     "kind": "learn",
+     "minutes": 89,
+     "exact": true
+    },
+    {
+     "id": "py-types",
+     "title": "基本数据类型：数字、字符串、time 库",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       12,
+       17
+      ],
+      "label": "P12–17",
+      "start": 12,
+      "videoMinutes": 142
+     },
+     "kind": "learn",
+     "minutes": 142,
+     "exact": true
+    },
+    {
+     "id": "py-control",
+     "title": "控制结构：分支、循环、random 库",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       18,
+       23
+      ],
+      "label": "P18–23",
+      "start": 18,
+      "videoMinutes": 102
+     },
+     "kind": "learn",
+     "minutes": 102,
+     "exact": true
+    },
+    {
+     "id": "py-func",
+     "title": "函数与代码复用：七段数码管、递归",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       24,
+       29
+      ],
+      "label": "P24–29",
+      "start": 24,
+      "videoMinutes": 122
+     },
+     "kind": "learn",
+     "minutes": 122,
+     "exact": true
+    },
+    {
+     "id": "py-collections",
+     "title": "组合数据类型：集合、序列、字典",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       30,
+       36
+      ],
+      "label": "P30–36",
+      "start": 30,
+      "videoMinutes": 114
+     },
+     "kind": "learn",
+     "minutes": 114,
+     "exact": true
+    },
+    {
+     "id": "py-file",
+     "title": "文件与数据格式化",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       37,
+       43
+      ],
+      "label": "P37–43",
+      "start": 37,
+      "videoMinutes": 114
+     },
+     "kind": "learn",
+     "minutes": 114,
+     "exact": true
+    },
+    {
+     "id": "py-design",
+     "title": "程序设计方法学与第三方库",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       44,
+       49
+      ],
+      "label": "P44–49",
+      "start": 44,
+      "videoMinutes": 101
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 101,
+     "exact": true
+    },
+    {
+     "id": "py-eco",
+     "title": "Python 计算生态与全课总结",
+     "ref": {
+      "bv": "BV1JL4y1x7xC",
+      "p": [
+       50,
+       56
+      ],
+      "label": "P50–56",
+      "start": 50,
+      "videoMinutes": 65
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 65,
+     "exact": true
+    },
+    {
+     "id": "py-teach-diff",
+     "title": "整理一页「Python ↔ MicroPython 差异速查」",
+     "kind": "teach"
+    }
+   ],
+   "tier": "main",
+   "requiredMinutes": 780
+  },
+  {
+   "id": "esp32-geeksman-mpy",
+   "track": "esp32",
+   "order": 2,
+   "short": "ESP32 + MicroPython",
+   "title": "ESP32 + MicroPython 系统教程",
+   "teacher": "极客侠 / MicroPython 官方",
+   "platform": "极客侠 / 官方文档",
+   "role": "core",
+   "links": [
+    {
+     "label": "极客侠系列 · 27 篇",
+     "url": "https://geeksman.com/series/esp32-micropython/",
+     "kind": "docs",
+     "primary": true
+    },
+    {
+     "label": "官方 ESP32 速查",
+     "url": "https://docs.micropython.org/en/latest/esp32/quickref.html",
+     "kind": "docs"
+    },
+    {
+     "label": "固件下载",
+     "url": "https://micropython.org/download/ESP32_GENERIC/",
+     "kind": "tool"
+    }
+   ],
+   "note": "教学主线。章节按极客侠 27 篇系列归并，边读边接线；mpremote 与综合项目是自己加的两节。查函数用官方速查。",
+   "outlineSource": "series",
+   "outlineNote": "对齐极客侠系列 27 篇；时长为预估",
+   "teaching": {
+    "note": "日常 ESP32 课的底子：每一章都能拆成一节课堂实验。"
+   },
+   "outline": [
+    {
+     "id": "gk-start",
+     "title": "入门：ESP32 简介、Thonny 环境搭建、面包板与杜邦线",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-intro/",
+      "label": "第 1–3 篇"
+     },
+     "minutes": 100,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-gpio-out",
+     "title": "GPIO 输出：点亮 LED 与流水灯",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-led/",
+      "label": "第 4–5 篇"
+     },
+     "minutes": 70,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-7seg",
+     "title": "数码管：1 位与 4 位显示",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-1digit-7seg/",
+      "label": "第 6–7 篇"
+     },
+     "minutes": 70,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-button",
+     "title": "GPIO 输入：按键开关灯",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-button/",
+      "label": "第 8 篇"
+     },
+     "minutes": 35,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-pwm",
+     "title": "PWM：呼吸灯与舵机转到指定角度",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-pwm/",
+      "label": "第 9–10 篇"
+     },
+     "minutes": 70,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-adc",
+     "title": "ADC：读取电位器等模拟量",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-adc/",
+      "label": "第 11 篇"
+     },
+     "minutes": 35,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-display",
+     "title": "屏幕：I2C 驱动 LCD1602、SPI 驱动 OLED",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-lcd1602/",
+      "label": "第 12–13 篇"
+     },
+     "minutes": 80,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-uart",
+     "title": "UART 串口通信",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-uart/",
+      "label": "第 14 篇"
+     },
+     "minutes": 40,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-irq",
+     "title": "外部中断与定时器中断",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-interrupt/",
+      "label": "第 15–16 篇"
+     },
+     "minutes": 70,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-net",
+     "title": "联网：Wi-Fi、RTC、WebREPL、HTTP 请求天气",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-wifi/",
+      "label": "第 17–20 篇"
+     },
+     "minutes": 150,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-modules",
+     "title": "常用模块：步进电机、摇杆、点阵、继电器、蜂鸣器、矩阵键盘",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-step-motor/",
+      "label": "第 21–26 篇"
+     },
+     "minutes": 200,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-sd",
+     "title": "SD 卡读写",
+     "ref": {
+      "url": "https://geeksman.com/articles/esp32-micropython-sd/",
+      "label": "第 27 篇"
+     },
+     "minutes": 40,
+     "kind": "learn"
+    },
+    {
+     "id": "gk-mpremote",
+     "title": "mpremote 与文件系统：把代码拆成模块上传",
+     "kind": "practice",
+     "custom": true,
+     "ref": {
+      "url": "https://docs.micropython.org/en/latest/reference/mpremote.html",
+      "label": "官方文档"
+     },
+     "minutes": 60
+    },
+    {
+     "id": "gk-project",
+     "title": "综合小项目验收：传感器 + 屏幕 + 联网",
+     "kind": "practice",
+     "custom": true,
+     "minutes": 120
+    },
+    {
+     "id": "gk-teach-card",
+     "title": "整理一份课堂用「ESP32 外设速查卡」",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "gk-start",
+    "02": "gk-start",
+    "03": "gk-gpio-out",
+    "04": "gk-pwm",
+    "05": "gk-adc",
+    "06": "gk-uart",
+    "07": "gk-display",
+    "09": "gk-irq",
+    "10": "gk-mpremote",
+    "11": "gk-net",
+    "12": "gk-project"
+   },
+   "tier": "main",
+   "requiredMinutes": 1140
+  },
+  {
+   "id": "esp32-bemfa-mqtt",
+   "track": "esp32",
+   "order": 3,
+   "short": "巴法 MQTT",
+   "title": "巴法云 MQTT 与微信推送",
+   "teacher": "巴法云 + 自有课例",
+   "platform": "巴法文档",
+   "role": "core",
+   "prereq": [
+    "esp32-geeksman-mpy"
+   ],
+   "links": [
+    {
+     "label": "巴法 MQTT 文档",
+     "url": "https://cloud.bemfa.com/docs/src/mqtt.html",
+     "kind": "docs",
+     "primary": true
+    },
+    {
+     "label": "umqtt.simple 源码",
+     "url": "https://github.com/micropython/micropython-lib/tree/master/micropython/umqtt.simple",
+     "kind": "docs"
+    },
+    {
+     "label": "B 站 · 图形化编程演示（单集 3 分钟）",
+     "url": "https://www.bilibili.com/video/BV1jigHzeEYk/",
+     "kind": "video"
+    }
+   ],
+   "note": "物联网实战，对应讲义 L17–L25。B 站那条只是「图编单片机」合集里的图形化功能演示，看个效果即可，代码以巴法文档为准。",
+   "outlineSource": "custom",
+   "teaching": {
+    "lessons": "L17–L25",
+    "note": "物联网单元：远程开灯 → 传感器上报 → 微信推送。"
+   },
+   "outline": [
+    {
+     "id": "bf-concept",
+     "title": "MQTT 概念与主题设计",
+     "minutes": 45,
+     "kind": "learn"
+    },
+    {
+     "id": "bf-account",
+     "title": "巴法云账号、私钥与主题创建",
+     "minutes": 30,
+     "kind": "learn"
+    },
+    {
+     "id": "bf-connect",
+     "title": "MicroPython 用 umqtt 连接巴法云",
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "bf-switch",
+     "title": "远程开关灯实战",
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "bf-report",
+     "title": "传感器上报与微信推送",
+     "minutes": 90,
+     "kind": "learn"
+    },
+    {
+     "id": "bf-robust",
+     "title": "断网重连与心跳",
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "bf-teach-demo",
+     "title": "课堂演示课例打磨（L17–L25）",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "bf-concept",
+    "02": "bf-account",
+    "03": "bf-connect",
+    "04": "bf-switch",
+    "05": "bf-report",
+    "06": "bf-robust",
+    "07": "bf-teach-demo"
+   },
+   "tier": "main",
+   "requiredMinutes": 345
+  },
+  {
+   "id": "esp32-asyncio-fsm",
+   "track": "esp32",
+   "order": 4,
+   "short": "asyncio / 状态机",
+   "title": "MicroPython 异步与状态机",
+   "teacher": "MicroPython 官方 + Peter Hinch 教程",
+   "platform": "官方文档 / GitHub",
+   "role": "core",
+   "prereq": [
+    "esp32-geeksman-mpy"
+   ],
+   "links": [
+    {
+     "label": "asyncio 官方文档",
+     "url": "https://docs.micropython.org/en/latest/library/asyncio.html",
+     "kind": "docs",
+     "primary": true
+    },
+    {
+     "label": "Peter Hinch 异步教程",
+     "url": "https://github.com/peterhinch/micropython-async/blob/master/v3/docs/TUTORIAL.md",
+     "kind": "docs"
+    }
+   ],
+   "note": "进阶：让按键、屏幕、联网同时跑而不卡顿。先读官方文档，Peter Hinch 的教程（英文）是社区公认最全的参考。",
+   "outlineSource": "custom",
+   "outline": [
+    {
+     "id": "as-block",
+     "title": "阻塞 vs 非阻塞：为什么 sleep 会卡住一切",
+     "minutes": 40,
+     "kind": "learn"
+    },
+    {
+     "id": "as-ticks",
+     "title": "ticks_ms 协作式调度",
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "as-task",
+     "title": "asyncio 任务与 sleep",
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "as-sync",
+     "title": "任务间传递：Event / Queue / ThreadSafeFlag",
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "as-fsm",
+     "title": "按键状态机：消抖、长按、双击",
+     "minutes": 90,
+     "kind": "learn"
+    },
+    {
+     "id": "as-arch",
+     "title": "多模块仲裁架构",
+     "minutes": 90,
+     "kind": "learn"
+    },
+    {
+     "id": "as-case",
+     "title": "案例复盘：摄像头 + Wi-Fi 卡顿",
+     "kind": "practice",
+     "minutes": 60
+    }
+   ],
+   "legacyIds": {
+    "01": "as-block",
+    "02": "as-ticks",
+    "03": "as-task",
+    "04": "as-sync",
+    "05": "as-fsm",
+    "06": "as-arch",
+    "07": "as-case"
+   },
+   "tier": "main",
+   "requiredMinutes": 460
+  },
+  {
+   "id": "arduino-mindplus",
+   "track": "classroom",
+   "order": 5,
+   "short": "Mind+ × Arduino",
+   "title": "Arduino UNO + Mind+",
+   "teacher": "Mind+ / Arduino",
+   "platform": "Mind+ 官网",
+   "role": "core",
+   "links": [
+    {
+     "label": "Mind+ 官网",
+     "url": "https://mindplus.cc/",
+     "kind": "official",
+     "primary": true
+    },
+    {
+     "label": "Mind+ 使用手册",
+     "url": "https://mindplus.dfrobot.com.cn/",
+     "kind": "docs"
+    }
+   ],
+   "note": "课堂教具线：图形化上手快，适合低年级。重点记住几个常见坑：中文显示、字符串长度、COM 口。",
+   "outlineSource": "custom",
+   "outline": [
+    {
+     "id": "mp-ui",
+     "title": "Mind+ 界面与扩展库",
+     "minutes": 30,
+     "kind": "learn"
+    },
+    {
+     "id": "mp-uno",
+     "title": "UNO 板型与串口驱动",
+     "minutes": 30,
+     "kind": "learn"
+    },
+    {
+     "id": "mp-blocks",
+     "title": "图形化：灯 / 蜂鸣器 / 超声波",
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "mp-text",
+     "title": "中文显示与字符串长度坑",
+     "minutes": 30,
+     "kind": "learn"
+    },
+    {
+     "id": "mp-upload",
+     "title": "上传与 COM 口排错",
+     "minutes": 30,
+     "kind": "learn"
+    },
+    {
+     "id": "mp-parking",
+     "title": "智慧停车场项目拆解",
+     "kind": "practice",
+     "minutes": 90
+    },
+    {
+     "id": "mp-teach-compare",
+     "title": "同一实验的 Arduino / ESP32 对照课",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "mp-ui",
+    "02": "mp-uno",
+    "03": "mp-blocks",
+    "04": "mp-text",
+    "05": "mp-parking",
+    "06": "mp-upload",
+    "07": "mp-teach-compare"
+   },
+   "tier": "extend",
+   "requiredMinutes": 270
+  },
+  {
+   "id": "k230-canmv",
+   "track": "edge-ai",
+   "order": 6,
+   "short": "K230 视觉",
+   "title": "K230 CanMV 端侧视觉",
+   "teacher": "嘉楠 / CanMV · 韦东山",
+   "platform": "Kendryte 文档 / 哔哩哔哩",
+   "role": "core",
+   "links": [
+    {
+     "label": "CanMV K230 文档",
+     "url": "https://www.kendryte.com/k230_canmv/zh/main/index.html",
+     "kind": "docs",
+     "primary": true
+    },
+    {
+     "label": "YOLOv8n 检测示例",
+     "url": "https://www.kendryte.com/k230_canmv/zh/main/example/ai/yolov8n_detection.html",
+     "kind": "docs"
+    },
+    {
+     "label": "AI 推理入门",
+     "url": "https://www.kendryte.com/ai_docs/zh/main/快速入门K230_AI推理流程.html",
+     "kind": "docs"
+    },
+    {
+     "label": "B 站 · 韦东山 K230 快速上手",
+     "url": "https://www.bilibili.com/video/BV1BWUUYaEXv/",
+     "kind": "video",
+     "meta": "2P · 0.3h"
+    },
+    {
+     "label": "B 站 · 电赛视觉合集第 1 集",
+     "url": "https://www.bilibili.com/video/BV1Z6jJzyEmM/",
+     "kind": "video",
+     "meta": "单集 4 分钟 · 合集 27 集"
+    }
+   ],
+   "note": "端侧视觉，对应讲义 L28–L35。先按文档跑通 YOLOv8n，再考虑替换自己的模型。",
+   "outlineSource": "custom",
+   "teaching": {
+    "lessons": "L28–L35",
+    "note": "AI 视觉单元：识别 → 分类 → 植物视觉闭环。"
+   },
+   "outline": [
+    {
+     "id": "k2-flash",
+     "title": "刷机与启动（EMMC / SD 卡），分阶段验收",
+     "ref": {
+      "bv": "BV1BWUUYaEXv",
+      "videoMinutes": 16
+     },
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "k2-ide",
+     "title": "CanMV IDE 与 MicroPython 入门",
+     "minutes": 45,
+     "kind": "learn"
+    },
+    {
+     "id": "k2-camera",
+     "title": "摄像头预览与拍照",
+     "minutes": 45,
+     "kind": "learn"
+    },
+    {
+     "id": "k2-yolo",
+     "title": "YOLOv8n 检测跑通",
+     "ref": {
+      "url": "https://www.kendryte.com/k230_canmv/zh/main/example/ai/yolov8n_detection.html",
+      "label": "示例"
+     },
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "k2-model",
+     "title": "自训 / 替换模型流程",
+     "ref": {
+      "url": "https://www.kendryte.com/ai_docs/zh/main/快速入门K230_AI推理流程.html",
+      "label": "文档"
+     },
+     "minutes": 120,
+     "kind": "learn"
+    },
+    {
+     "id": "k2-plant",
+     "title": "植物视觉闭环课例",
+     "kind": "practice",
+     "minutes": 120
+    },
+    {
+     "id": "k2-teach-safety",
+     "title": "讲义：课堂安全与算力边界（L28–L35）",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "k2-flash",
+    "02": "k2-ide",
+    "03": "k2-camera",
+    "04": "k2-yolo",
+    "05": "k2-model",
+    "06": "k2-plant",
+    "07": "k2-teach-safety"
+   },
+   "tier": "extend",
+   "requiredMinutes": 450
+  },
+  {
+   "id": "esp32s3-ai-voice",
+   "track": "edge-ai",
+   "order": 7,
+   "short": "ESP32-S3 AI 语音",
+   "title": "ESP32-S3 + 大模型语音对话（小智 AI）",
+   "teacher": "xiaozhi-esp32 开源项目 · 闪电蘑菇 / 杯面_白",
+   "platform": "GitHub / 哔哩哔哩 / ESP-IDF",
+   "role": "core",
+   "prereq": [
+    "esp32-geeksman-mpy"
+   ],
+   "links": [
+    {
+     "label": "xiaozhi-esp32 源码",
+     "url": "https://github.com/78/xiaozhi-esp32",
+     "kind": "official",
+     "primary": true
+    },
+    {
+     "label": "B 站 · 复刻小智合集",
+     "url": "https://www.bilibili.com/video/BV1tuVfzbEWz/",
+     "kind": "video",
+     "meta": "合集 18 集 · 短视频"
+    },
+    {
+     "label": "B 站 · 从零开发（深入）",
+     "url": "https://www.bilibili.com/video/BV1DzR9Y7Etr/",
+     "kind": "video",
+     "meta": "109P · 23.2h"
+    },
+    {
+     "label": "ESP-IDF 快速入门（S3）",
+     "url": "https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32s3/get-started/index.html",
+     "kind": "docs"
+    },
+    {
+     "label": "小智控制台",
+     "url": "https://xiaozhi.me/",
+     "kind": "tool"
+    }
+   ],
+   "note": "2025–26 年科创最热的方向之一：ESP32-S3 + 麦克风 / 功放，接大模型做唤醒、对话、用语音控制外设。技术栈是 ESP-IDF / C++，不是 MicroPython：先用现成固件跑通，再按需看源码。「深入」三章是 23 小时的从零开发课，选读。",
+   "outlineSource": "custom",
+   "outlineNote": "自定义；视频章节锚定到具体 BV",
+   "outline": [
+    {
+     "id": "ai-principle",
+     "title": "原理：唤醒 → 语音识别 → 大模型 → 语音合成",
+     "ref": {
+      "bv": "BV1MFE9zZEnD",
+      "videoMinutes": 6
+     },
+     "minutes": 20,
+     "kind": "learn"
+    },
+    {
+     "id": "ai-flash",
+     "title": "面包板复刻：接线、烧录现成固件、配网",
+     "ref": {
+      "bv": "BV1tuVfzbEWz",
+      "videoMinutes": 24
+     },
+     "minutes": 90,
+     "kind": "learn"
+    },
+    {
+     "id": "ai-console",
+     "title": "控制台：角色、音色与大模型设置",
+     "ref": {
+      "url": "https://xiaozhi.me/",
+      "label": "控制台"
+     },
+     "minutes": 30,
+     "kind": "learn"
+    },
+    {
+     "id": "ai-idf",
+     "title": "搭建 ESP-IDF 环境，自己编译固件",
+     "ref": {
+      "bv": "BV1BN3ezTEdU",
+      "videoMinutes": 11
+     },
+     "minutes": 120,
+     "kind": "learn"
+    },
+    {
+     "id": "ai-wake",
+     "title": "唤醒词与自定义命令词",
+     "ref": {
+      "bv": "BV1KU7KzdEys",
+      "videoMinutes": 10
+     },
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "ai-mcp",
+     "title": "MCP：用语音控制舵机与灯",
+     "ref": {
+      "bv": "BV1ng8gzHEuP",
+      "videoMinutes": 10
+     },
+     "minutes": 60,
+     "kind": "learn"
+    },
+    {
+     "id": "ai-project",
+     "title": "课堂项目：会聊天的桌面小助手",
+     "kind": "practice",
+     "minutes": 120
+    },
+    {
+     "id": "ai-deep-server",
+     "title": "深入①：自建后端（大模型 / TTS / Opus / ASR / WebSocket）",
+     "ref": {
+      "bv": "BV1DzR9Y7Etr",
+      "p": [
+       [
+        1,
+        20
+       ],
+       [
+        51,
+        67
+       ]
+      ],
+      "label": "P1–20、51–67",
+      "start": 1,
+      "videoMinutes": 503
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 503,
+     "exact": true
+    },
+    {
+     "id": "ai-deep-firmware",
+     "title": "深入②：固件（工程结构、录音、FreeRTOS 任务、音频播放）",
+     "ref": {
+      "bv": "BV1DzR9Y7Etr",
+      "p": [
+       21,
+       50
+      ],
+      "label": "P21–50",
+      "start": 21,
+      "videoMinutes": 365
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 365,
+     "exact": true
+    },
+    {
+     "id": "ai-deep-voice",
+     "title": "深入③：配网、握手、唤醒词与完整语音流程",
+     "ref": {
+      "bv": "BV1DzR9Y7Etr",
+      "p": [
+       68,
+       109
+      ],
+      "label": "P68–109",
+      "start": 68,
+      "videoMinutes": 525
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 525,
+     "exact": true
+    },
+    {
+     "id": "ai-teach-lesson",
+     "title": "讲义：「AI 语音小助手」一课时（含隐私与安全提醒）",
+     "kind": "teach"
+    }
+   ],
+   "tier": "extend",
+   "requiredMinutes": 500
+  },
+  {
+   "id": "sim-lab-wokwi",
+   "track": "sim",
+   "order": 8,
+   "short": "Wokwi 仿真",
+   "title": "浏览器仿真与 8 周机器人路线",
+   "teacher": "Wokwi / Tinkercad / robotips",
+   "platform": "网页工具",
+   "role": "elective",
+   "roleLabel": "选学",
+   "links": [
+    {
+     "label": "Wokwi",
+     "url": "https://wokwi.com",
+     "kind": "tool",
+     "primary": true
+    },
+    {
+     "label": "Tinkercad Circuits",
+     "url": "https://www.tinkercad.com/circuits",
+     "kind": "tool"
+    },
+    {
+     "label": "ESP Labs",
+     "url": "https://esp-labs-web.vercel.app",
+     "kind": "tool"
+    },
+    {
+     "label": "robotips 路线",
+     "url": "https://robotips.app",
+     "kind": "tool"
+    }
+   ],
+   "note": "练手与备课演示用：没板子、来不及接线时先在浏览器里跑一遍。工具型内容，不计入总进度。",
+   "outlineSource": "custom",
+   "outline": [
+    {
+     "id": "sim-wokwi",
+     "title": "Wokwi 新建 ESP32 MicroPython 工程",
+     "minutes": 40,
+     "kind": "learn"
+    },
+    {
+     "id": "sim-serial",
+     "title": "串口与传感器仿真",
+     "minutes": 40,
+     "kind": "learn"
+    },
+    {
+     "id": "sim-tinkercad",
+     "title": "Tinkercad 电路搭接",
+     "minutes": 40,
+     "kind": "learn"
+    },
+    {
+     "id": "sim-esplabs",
+     "title": "ESP Labs 在线实验",
+     "minutes": 40,
+     "kind": "learn"
+    },
+    {
+     "id": "sim-robotips",
+     "title": "robotips 8 周路线通览",
+     "minutes": 30,
+     "kind": "learn"
+    },
+    {
+     "id": "sim-teach-demo",
+     "title": "选 1 周做成备课演示",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "sim-wokwi",
+    "02": "sim-serial",
+    "03": "sim-tinkercad",
+    "04": "sim-esplabs",
+    "05": "sim-robotips",
+    "06": "sim-teach-demo"
+   },
+   "tier": "extend",
+   "requiredMinutes": 190
+  },
+  {
+   "id": "c-wengkai",
+   "track": "basics",
+   "order": 9,
+   "short": "C 语言",
+   "title": "程序设计入门——C语言",
+   "teacher": "翁恺 · 浙江大学",
+   "platform": "中国大学 MOOC / 哔哩哔哩",
+   "role": "core",
+   "links": [
+    {
+     "label": "中国大学 MOOC",
+     "url": "https://www.icourse163.org/course/ZJU-199001",
+     "kind": "official",
+     "primary": true
+    },
+    {
+     "label": "B 站转载 · 74P",
+     "url": "https://www.bilibili.com/video/BV1ME411h75N/",
+     "kind": "video",
+     "meta": "74P · 10.5h"
+    },
+    {
+     "label": "B 站另一套转载",
+     "url": "https://www.bilibili.com/video/BV1e7411y7Ky/",
+     "kind": "video",
+     "meta": "132P · 19.3h"
+    }
+   ],
+   "note": "国家精品在线开放课；零基础 C 入门，嵌入式必会。官方以 MOOC 为准，B 站是转载、随时可能下架；大纲按 74P 版归并。后续还有《C语言程序设计进阶》。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "c-intro",
+     "title": "计算机与编程语言、安装与第一个程序",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       1,
+       8
+      ],
+      "label": "P1–8",
+      "start": 1,
+      "videoMinutes": 48
+     },
+     "kind": "learn",
+     "minutes": 48,
+     "exact": true
+    },
+    {
+     "id": "c-calc",
+     "title": "计算：变量、常量、浮点、表达式与运算符",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       9,
+       20
+      ],
+      "label": "P9–20",
+      "start": 9,
+      "videoMinutes": 82
+     },
+     "kind": "learn",
+     "minutes": 82,
+     "exact": true
+    },
+    {
+     "id": "c-if",
+     "title": "判断：if / else / 级联 / switch",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       21,
+       29
+      ],
+      "label": "P21–29",
+      "start": 21,
+      "videoMinutes": 76
+     },
+     "kind": "learn",
+     "minutes": 76,
+     "exact": true
+    },
+    {
+     "id": "c-while",
+     "title": "循环：while / do-while 与循环计算",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       30,
+       36
+      ],
+      "label": "P30–36",
+      "start": 30,
+      "videoMinutes": 71
+     },
+     "kind": "learn",
+     "minutes": 71,
+     "exact": true
+    },
+    {
+     "id": "c-for",
+     "title": "for 循环、循环控制与嵌套",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       37,
+       44
+      ],
+      "label": "P37–44",
+      "start": 37,
+      "videoMinutes": 78
+     },
+     "kind": "learn",
+     "minutes": 78,
+     "exact": true
+    },
+    {
+     "id": "c-types",
+     "title": "数据类型：整数、浮点、字符、逻辑与类型转换",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       45,
+       58
+      ],
+      "label": "P45–58",
+      "start": 45,
+      "videoMinutes": 104
+     },
+     "kind": "learn",
+     "minutes": 104,
+     "exact": true
+    },
+    {
+     "id": "c-func",
+     "title": "函数：定义、原型、参数传递、本地变量",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       59,
+       65
+      ],
+      "label": "P59–65",
+      "start": 59,
+      "videoMinutes": 66
+     },
+     "kind": "learn",
+     "minutes": 66,
+     "exact": true
+    },
+    {
+     "id": "c-array",
+     "title": "数组：一维、二维与素数例子",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       66,
+       71
+      ],
+      "label": "P66–71",
+      "start": 66,
+      "videoMinutes": 68
+     },
+     "kind": "learn",
+     "minutes": 68,
+     "exact": true
+    },
+    {
+     "id": "c-pointer",
+     "title": "指针入门：取地址、指针与数组",
+     "ref": {
+      "bv": "BV1ME411h75N",
+      "p": [
+       72,
+       74
+      ],
+      "label": "P72–74",
+      "start": 72,
+      "videoMinutes": 35
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 35,
+     "exact": true
+    },
+    {
+     "id": "c-teach-mpy",
+     "title": "整理「C ↔ MicroPython 语法对照表」",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "c-intro",
+    "02": "c-types",
+    "03": "c-if",
+    "04": "c-array",
+    "05": "c-func",
+    "06": "c-pointer",
+    "07": "c-teach-mpy"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 593
+  },
+  {
+   "id": "analog-zheng",
+   "track": "basics",
+   "order": 10,
+   "short": "模电",
+   "title": "模拟电子技术基础",
+   "teacher": "郑益慧 · 上海交通大学",
+   "platform": "哔哩哔哩",
+   "role": "core",
+   "prereq": [
+    "circuits-shiqun"
+   ],
+   "links": [
+    {
+     "label": "B 站 4K 版",
+     "url": "https://www.bilibili.com/video/BV1Gt411b7Zq/",
+     "kind": "video",
+     "primary": true,
+     "meta": "52P · 38.2h"
+    },
+    {
+     "label": "B 站 1080P 版",
+     "url": "https://www.bilibili.com/video/BV1Kh4y127ay/",
+     "kind": "video",
+     "meta": "46P · 34.9h"
+    }
+   ],
+   "note": "经典模电公开课。适合有一点电路基础后再跟；教材多配童诗白、华成英《模拟电子技术基础》。大纲按 4K 版 52P 归并。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "az-intro",
+     "title": "绪论",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       1,
+       1
+      ],
+      "label": "P1",
+      "start": 1,
+      "videoMinutes": 46
+     },
+     "kind": "learn",
+     "minutes": 46,
+     "exact": true
+    },
+    {
+     "id": "az-diode",
+     "title": "PN 结与二极管：等效电路、稳压管",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       2,
+       5
+      ],
+      "label": "P2–5",
+      "start": 2,
+      "videoMinutes": 178
+     },
+     "kind": "learn",
+     "minutes": 178,
+     "exact": true
+    },
+    {
+     "id": "az-transistor",
+     "title": "晶体管：BJT、MOS、结型场效应管",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       6,
+       9
+      ],
+      "label": "P6–9",
+      "start": 6,
+      "videoMinutes": 183
+     },
+     "kind": "learn",
+     "minutes": 183,
+     "exact": true
+    },
+    {
+     "id": "az-amp",
+     "title": "基本放大电路：指标、分析方法、共射 / 共集 / 共基",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       10,
+       17
+      ],
+      "label": "P10–17",
+      "start": 10,
+      "videoMinutes": 375
+     },
+     "kind": "learn",
+     "minutes": 375,
+     "exact": true
+    },
+    {
+     "id": "az-multi",
+     "title": "多级、差分放大与功率输出级",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       18,
+       22
+      ],
+      "label": "P18–22",
+      "start": 18,
+      "videoMinutes": 243
+     },
+     "kind": "learn",
+     "minutes": 243,
+     "exact": true
+    },
+    {
+     "id": "az-freq",
+     "title": "频率响应：波特图与混合 π 模型",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       23,
+       27
+      ],
+      "label": "P23–27",
+      "start": 23,
+      "videoMinutes": 227
+     },
+     "kind": "learn",
+     "minutes": 227,
+     "exact": true
+    },
+    {
+     "id": "az-opamp-inside",
+     "title": "集成运放：电流源与有源负载",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       28,
+       30
+      ],
+      "label": "P28–30",
+      "start": 28,
+      "videoMinutes": 107
+     },
+     "kind": "learn",
+     "minutes": 107,
+     "exact": true
+    },
+    {
+     "id": "az-feedback",
+     "title": "负反馈：判断、深度负反馈与稳定性",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       31,
+       36
+      ],
+      "label": "P31–36",
+      "start": 31,
+      "videoMinutes": 276
+     },
+     "kind": "learn",
+     "minutes": 276,
+     "exact": true
+    },
+    {
+     "id": "az-calc",
+     "title": "信号运算：基本运算电路、仪表放大器",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       37,
+       40
+      ],
+      "label": "P37–40",
+      "start": 37,
+      "videoMinutes": 179
+     },
+     "kind": "learn",
+     "minutes": 179,
+     "exact": true
+    },
+    {
+     "id": "az-wave",
+     "title": "波形发生：振荡电路与电压比较器",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       41,
+       46
+      ],
+      "label": "P41–46",
+      "start": 41,
+      "videoMinutes": 280
+     },
+     "kind": "learn",
+     "minutes": 280,
+     "exact": true
+    },
+    {
+     "id": "az-power-amp",
+     "title": "功率放大电路",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       47,
+       48
+      ],
+      "label": "P47–48",
+      "start": 47,
+      "videoMinutes": 58
+     },
+     "kind": "learn",
+     "minutes": 58,
+     "exact": true
+    },
+    {
+     "id": "az-dc",
+     "title": "直流电源：整流滤波与串联稳压",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       49,
+       51
+      ],
+      "label": "P49–51",
+      "start": 49,
+      "videoMinutes": 134
+     },
+     "kind": "learn",
+     "minutes": 134,
+     "exact": true
+    },
+    {
+     "id": "az-method",
+     "title": "老师的学习方法（花絮）",
+     "ref": {
+      "bv": "BV1Gt411b7Zq",
+      "p": [
+       52,
+       52
+      ],
+      "label": "P52",
+      "start": 52,
+      "videoMinutes": 8
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 8,
+     "exact": true
+    },
+    {
+     "id": "az-teach-sensor",
+     "title": "课堂案例：模电在传感器信号调理中的用法",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "az-diode",
+    "02": "az-amp",
+    "04": "az-feedback",
+    "05": "az-calc",
+    "06": "az-dc",
+    "07": "az-teach-sensor"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 2286
+  },
+  {
+   "id": "circuits-shiqun",
+   "track": "basics",
+   "order": 11,
+   "short": "电路",
+   "title": "《电路》（邱关源）",
+   "teacher": "石群",
+   "platform": "网易公开课 / 哔哩哔哩",
+   "role": "core",
+   "links": [
+    {
+     "label": "B 站完整版 · 带目录",
+     "url": "https://www.bilibili.com/video/BV1F7411a7iV/",
+     "kind": "video",
+     "primary": true,
+     "meta": "80P · 106.2h"
+    },
+    {
+     "label": "网易公开课 · 80 集",
+     "url": "https://open.163.com/newview/movie/free?pid=PESEP49N5",
+     "kind": "official"
+    },
+    {
+     "label": "B 站 4K 修复版",
+     "url": "https://www.bilibili.com/video/BV1jHLGzDEJe/",
+     "kind": "video",
+     "meta": "80P · 106.3h"
+    }
+   ],
+   "note": "配套邱关源《电路》第五 / 六版，偏本科电路理论 + 考研。做科创硬件不必全啃：只挑 1–9 章（电阻网络、运放电阻电路、储能元件、一阶暂态、正弦稳态），10–18 章预设为选读。讲师学校归属未确认，勿与于歆杰《电路原理》混淆。",
+   "outlineSource": "bilibili",
+   "outlineNote": "100% = 挑讲的 1–9 章学完",
+   "outline": [
+    {
+     "id": "sq-ch01",
+     "title": "第 1 章 电路模型和电路定律（基尔霍夫）",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       1,
+       3
+      ],
+      "label": "P1–3",
+      "start": 1,
+      "videoMinutes": 211
+     },
+     "kind": "learn",
+     "minutes": 211,
+     "exact": true
+    },
+    {
+     "id": "sq-ch02",
+     "title": "第 2 章 电阻电路的等效变换",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       4,
+       7
+      ],
+      "label": "P4–7",
+      "start": 4,
+      "videoMinutes": 277
+     },
+     "kind": "learn",
+     "minutes": 277,
+     "exact": true
+    },
+    {
+     "id": "sq-ch03",
+     "title": "第 3 章 电阻电路的一般分析（节点 / 回路法）",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       8,
+       12
+      ],
+      "label": "P8–12",
+      "start": 8,
+      "videoMinutes": 346
+     },
+     "kind": "learn",
+     "minutes": 346,
+     "exact": true
+    },
+    {
+     "id": "sq-ch04",
+     "title": "第 4 章 电路定理（叠加、戴维南）",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       13,
+       18
+      ],
+      "label": "P13–18",
+      "start": 13,
+      "videoMinutes": 420
+     },
+     "kind": "learn",
+     "minutes": 420,
+     "exact": true
+    },
+    {
+     "id": "sq-ch05",
+     "title": "第 5 章 含有运算放大器的电阻电路",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       19,
+       20
+      ],
+      "label": "P19–20",
+      "start": 19,
+      "videoMinutes": 145
+     },
+     "kind": "learn",
+     "minutes": 145,
+     "exact": true
+    },
+    {
+     "id": "sq-ch06",
+     "title": "第 6 章 储能元件",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       21,
+       22
+      ],
+      "label": "P21–22",
+      "start": 21,
+      "videoMinutes": 134
+     },
+     "kind": "learn",
+     "minutes": 134,
+     "exact": true
+    },
+    {
+     "id": "sq-ch07",
+     "title": "第 7 章 一阶和二阶电路的时域分析",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       23,
+       33
+      ],
+      "label": "P23–33",
+      "start": 23,
+      "videoMinutes": 752
+     },
+     "kind": "learn",
+     "minutes": 752,
+     "exact": true
+    },
+    {
+     "id": "sq-ch08",
+     "title": "第 8 章 相量法",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       34,
+       36
+      ],
+      "label": "P34–36",
+      "start": 34,
+      "videoMinutes": 208
+     },
+     "kind": "learn",
+     "minutes": 208,
+     "exact": true
+    },
+    {
+     "id": "sq-ch09",
+     "title": "第 9 章 正弦稳态电路的分析",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       37,
+       41
+      ],
+      "label": "P37–41",
+      "start": 37,
+      "videoMinutes": 375
+     },
+     "kind": "learn",
+     "minutes": 375,
+     "exact": true
+    },
+    {
+     "id": "sq-ch10-11",
+     "title": "第 10–11 章 耦合电感、频率响应",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       42,
+       49
+      ],
+      "label": "P42–49",
+      "start": 42,
+      "videoMinutes": 624
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 624,
+     "exact": true
+    },
+    {
+     "id": "sq-ch12",
+     "title": "第 12 章 三相电路",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       50,
+       53
+      ],
+      "label": "P50–53",
+      "start": 50,
+      "videoMinutes": 324
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 324,
+     "exact": true
+    },
+    {
+     "id": "sq-ch13-14",
+     "title": "第 13–14 章 非正弦周期电流、复频域分析",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       54,
+       61
+      ],
+      "label": "P54–61",
+      "start": 54,
+      "videoMinutes": 722
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 722,
+     "exact": true
+    },
+    {
+     "id": "sq-ch15-16",
+     "title": "第 15–16 章 矩阵形式、二端口网络",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       62,
+       70
+      ],
+      "label": "P62–70",
+      "start": 62,
+      "videoMinutes": 822
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 822,
+     "exact": true
+    },
+    {
+     "id": "sq-ch17-18",
+     "title": "第 17–18 章 非线性电路、均匀传输线",
+     "ref": {
+      "bv": "BV1F7411a7iV",
+      "p": [
+       71,
+       80
+      ],
+      "label": "P71–80",
+      "start": 71,
+      "videoMinutes": 1012
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 1012,
+     "exact": true
+    },
+    {
+     "id": "sq-teach-review",
+     "title": "挑讲复盘：把 1–9 章写成一页科创硬件速查",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "sq-ch01",
+    "02": "sq-ch02",
+    "03": "sq-ch05",
+    "04": "sq-ch07",
+    "06": "sq-ch12",
+    "07": "sq-teach-review"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 2868
+  },
+  {
+   "id": "stm32-tietou",
+   "track": "stm32",
+   "order": 12,
+   "short": "STM32（铁头山羊）",
+   "title": "STM32 入门教程【新版】",
+   "teacher": "铁头山羊",
+   "platform": "哔哩哔哩",
+   "role": "core",
+   "choiceGroup": "stm32-intro",
+   "prereq": [
+    "c-wengkai"
+   ],
+   "links": [
+    {
+     "label": "B 站新版合集",
+     "url": "https://www.bilibili.com/video/BV11X4y1j7si/",
+     "kind": "video",
+     "primary": true,
+     "meta": "54P · 25.1h"
+    },
+    {
+     "label": "旧版（UP 主建议学新版）",
+     "url": "https://www.bilibili.com/video/BV1pw41187Sy/",
+     "kind": "video",
+     "meta": "旧版合集 46 集"
+    }
+   ],
+   "note": "STM32 二选一里计入的那门：25 小时，讲解偏底层与封装习惯，站内大纲和 B 站目录逐章对齐。UP 主另有旧版合集，已自标「请学新版」，入门只跟新版即可。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "tt-prep",
+     "title": "1 准备：开发环境、STM32 基本信息与引脚",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       1,
+       4
+      ],
+      "label": "P1–4",
+      "start": 1,
+      "videoMinutes": 54
+     },
+     "kind": "learn",
+     "minutes": 54,
+     "exact": true
+    },
+    {
+     "id": "tt-gpio",
+     "title": "2 GPIO：输出 / 输入模式、闪灯与按钮",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       5,
+       9
+      ],
+      "label": "P5–9",
+      "start": 5,
+      "videoMinutes": 122
+     },
+     "kind": "learn",
+     "minutes": 122,
+     "exact": true
+    },
+    {
+     "id": "tt-uart",
+     "title": "3 串口：UART 收发、格式化打印、封装",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       10,
+       16
+      ],
+      "label": "P10–16",
+      "start": 10,
+      "videoMinutes": 178
+     },
+     "kind": "learn",
+     "minutes": 178,
+     "exact": true
+    },
+    {
+     "id": "tt-i2c",
+     "title": "4 I2C：读写、软 I2C、OLED 显示",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       17,
+       24
+      ],
+      "label": "P17–24",
+      "start": 17,
+      "videoMinutes": 257
+     },
+     "kind": "learn",
+     "minutes": 257,
+     "exact": true
+    },
+    {
+     "id": "tt-spi",
+     "title": "5 SPI：W25Q64 实验（含番外：按钮驱动封装）",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       25,
+       32
+      ],
+      "label": "P25–32",
+      "start": 25,
+      "videoMinutes": 209
+     },
+     "kind": "learn",
+     "minutes": 209,
+     "exact": true
+    },
+    {
+     "id": "tt-irq",
+     "title": "6 中断：概念、优先级、串口中断",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       33,
+       35
+      ],
+      "label": "P33–35",
+      "start": 33,
+      "videoMinutes": 74
+     },
+     "kind": "learn",
+     "minutes": 74,
+     "exact": true
+    },
+    {
+     "id": "tt-exti",
+     "title": "7 EXTI：原理与按钮实验",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       36,
+       37
+      ],
+      "label": "P36–37",
+      "start": 36,
+      "videoMinutes": 45
+     },
+     "kind": "learn",
+     "minutes": 45,
+     "exact": true
+    },
+    {
+     "id": "tt-clock",
+     "title": "8 时钟树与编程",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       38,
+       39
+      ],
+      "label": "P38–39",
+      "start": 38,
+      "videoMinutes": 68
+     },
+     "kind": "learn",
+     "minutes": 68,
+     "exact": true
+    },
+    {
+     "id": "tt-tim",
+     "title": "9 定时器：输出比较呼吸灯、输入捕获超声波、PWM 测量",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       40,
+       48
+      ],
+      "label": "P40–48",
+      "start": 40,
+      "videoMinutes": 273
+     },
+     "kind": "learn",
+     "minutes": 273,
+     "exact": true
+    },
+    {
+     "id": "tt-adc",
+     "title": "10 ADC：单通道、定时器触发、扫描模式",
+     "ref": {
+      "bv": "BV11X4y1j7si",
+      "p": [
+       49,
+       54
+      ],
+      "label": "P49–54",
+      "start": 49,
+      "videoMinutes": 227
+     },
+     "kind": "learn",
+     "minutes": 227,
+     "exact": true
+    },
+    {
+     "id": "tt-teach-pack",
+     "title": "封装习惯小结：写成 ESP32 课堂的驱动封装讲义",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "tt-prep",
+    "02": "tt-gpio",
+    "03": "tt-uart",
+    "04": "tt-i2c",
+    "05": "tt-spi",
+    "06": "tt-exti",
+    "07": "tt-clock",
+    "08": "tt-tim",
+    "09": "tt-adc",
+    "10": "tt-teach-pack"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 1507
+  },
+  {
+   "id": "stm32-jiangxie",
+   "track": "stm32",
+   "order": 13,
+   "short": "STM32（江协）",
+   "title": "STM32 入门教程-2023版",
+   "teacher": "江协科技",
+   "platform": "哔哩哔哩 / 江协科技",
+   "role": "alternative",
+   "roleLabel": "备选",
+   "choiceGroup": "stm32-intro",
+   "prereq": [
+    "c-wengkai"
+   ],
+   "links": [
+    {
+     "label": "B 站 2023 版",
+     "url": "https://www.bilibili.com/video/BV1th411z7sn/",
+     "kind": "video",
+     "primary": true,
+     "meta": "50P · 33.5h"
+    },
+    {
+     "label": "江协官网",
+     "url": "https://jiangxiekeji.com/",
+     "kind": "official"
+    },
+    {
+     "label": "配套资料",
+     "url": "https://jiangxiekeji.com/download.html",
+     "kind": "docs"
+    }
+   ],
+   "note": "STM32 二选一的备选：更「全基础」，多了 DMA、RTC、低功耗、看门狗、FLASH。可以照常勾选，但不计入总进度。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "jx-setup",
+     "title": "[1–2] 课程简介、软件安装与新建工程",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       1,
+       4
+      ],
+      "label": "P1–4",
+      "start": 1,
+      "videoMinutes": 120
+     },
+     "kind": "learn",
+     "minutes": 120,
+     "exact": true
+    },
+    {
+     "id": "jx-gpio",
+     "title": "[3] GPIO：LED、蜂鸣器、按键、光敏传感器",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       5,
+       8
+      ],
+      "label": "P5–8",
+      "start": 5,
+      "videoMinutes": 151
+     },
+     "kind": "learn",
+     "minutes": 151,
+     "exact": true
+    },
+    {
+     "id": "jx-oled",
+     "title": "[4] OLED 调试工具",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       9,
+       10
+      ],
+      "label": "P9–10",
+      "start": 9,
+      "videoMinutes": 34
+     },
+     "kind": "learn",
+     "minutes": 34,
+     "exact": true
+    },
+    {
+     "id": "jx-exti",
+     "title": "[5] EXTI 外部中断：红外计次、旋转编码器",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       11,
+       12
+      ],
+      "label": "P11–12",
+      "start": 11,
+      "videoMinutes": 91
+     },
+     "kind": "learn",
+     "minutes": 91,
+     "exact": true
+    },
+    {
+     "id": "jx-tim-oc",
+     "title": "[6-1~6-4] TIM：定时中断、输出比较与 PWM",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       13,
+       16
+      ],
+      "label": "P13–16",
+      "start": 13,
+      "videoMinutes": 197
+     },
+     "kind": "learn",
+     "minutes": 197,
+     "exact": true
+    },
+    {
+     "id": "jx-tim-ic",
+     "title": "[6-5~6-8] TIM：输入捕获与编码器接口",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       17,
+       20
+      ],
+      "label": "P17–20",
+      "start": 17,
+      "videoMinutes": 121
+     },
+     "kind": "learn",
+     "minutes": 121,
+     "exact": true
+    },
+    {
+     "id": "jx-adc",
+     "title": "[7] ADC 模数转换",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       21,
+       22
+      ],
+      "label": "P21–22",
+      "start": 21,
+      "videoMinutes": 98
+     },
+     "kind": "learn",
+     "minutes": 98,
+     "exact": true
+    },
+    {
+     "id": "jx-dma",
+     "title": "[8] DMA 直接存储器存取",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       23,
+       24
+      ],
+      "label": "P23–24",
+      "start": 23,
+      "videoMinutes": 103
+     },
+     "kind": "learn",
+     "minutes": 103,
+     "exact": true
+    },
+    {
+     "id": "jx-usart",
+     "title": "[9] USART 串口与数据包",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       25,
+       30
+      ],
+      "label": "P25–30",
+      "start": 25,
+      "videoMinutes": 201
+     },
+     "kind": "learn",
+     "minutes": 201,
+     "exact": true
+    },
+    {
+     "id": "jx-i2c",
+     "title": "[10] I2C 与 MPU6050",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       31,
+       35
+      ],
+      "label": "P31–35",
+      "start": 31,
+      "videoMinutes": 260
+     },
+     "kind": "learn",
+     "minutes": 260,
+     "exact": true
+    },
+    {
+     "id": "jx-spi",
+     "title": "[11] SPI 与 W25Q64",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       36,
+       40
+      ],
+      "label": "P36–40",
+      "start": 36,
+      "videoMinutes": 223
+     },
+     "kind": "learn",
+     "minutes": 223,
+     "exact": true
+    },
+    {
+     "id": "jx-rtc",
+     "title": "[12] Unix 时间戳、BKP 与 RTC",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       41,
+       43
+      ],
+      "label": "P41–43",
+      "start": 41,
+      "videoMinutes": 141
+     },
+     "kind": "learn",
+     "minutes": 141,
+     "exact": true
+    },
+    {
+     "id": "jx-pwr",
+     "title": "[13] PWR 电源控制与低功耗模式",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       44,
+       45
+      ],
+      "label": "P44–45",
+      "start": 44,
+      "videoMinutes": 96
+     },
+     "kind": "learn",
+     "minutes": 96,
+     "exact": true
+    },
+    {
+     "id": "jx-wdg",
+     "title": "[14] WDG 看门狗",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       46,
+       47
+      ],
+      "label": "P46–47",
+      "start": 46,
+      "videoMinutes": 72
+     },
+     "kind": "learn",
+     "minutes": 72,
+     "exact": true
+    },
+    {
+     "id": "jx-flash",
+     "title": "[15] FLASH 闪存与芯片 ID（含结束语）",
+     "ref": {
+      "bv": "BV1th411z7sn",
+      "p": [
+       48,
+       50
+      ],
+      "label": "P48–50",
+      "start": 48,
+      "videoMinutes": 102
+     },
+     "kind": "learn",
+     "minutes": 102,
+     "exact": true
+    },
+    {
+     "id": "jx-teach-dual",
+     "title": "双板对照：挑一个实验在 ESP32 上复刻",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "jx-setup",
+    "02": "jx-gpio",
+    "03": "jx-exti",
+    "04": "jx-usart",
+    "05": "jx-tim-oc",
+    "06": "jx-adc",
+    "07": "jx-i2c",
+    "08": "jx-spi"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 2010
+  },
+  {
+   "id": "freertos-wei",
+   "track": "rtos-net",
+   "order": 14,
+   "short": "FreeRTOS",
+   "title": "FreeRTOS 入门与工程实践",
+   "teacher": "韦东山 · 百问网",
+   "platform": "哔哩哔哩 / 百问网",
+   "role": "core",
+   "prereq": [
+    "stm32-tietou"
+   ],
+   "links": [
+    {
+     "label": "B 站课程",
+     "url": "https://www.bilibili.com/video/BV1Jw411i7Fz/",
+     "kind": "video",
+     "primary": true,
+     "meta": "46P · 12.5h"
+    },
+    {
+     "label": "百问网专栏",
+     "url": "https://100ask.net/course/134",
+     "kind": "official"
+    }
+   ],
+   "note": "基于 STM32、以游戏机项目为导向。B 站这一版讲到「事件组」为止（前 2P 是推广，不计时长）；任务通知、软件定时器要去百问网专栏看，列为选读。有 ESP32 / MicroPython 基础后再补 RTOS 概念会更顺。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "fr-setup",
+     "title": "[0–2] 课程介绍、开发板与自建 FreeRTOS 工程",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       3,
+       8
+      ],
+      "label": "P3–8",
+      "start": 3,
+      "videoMinutes": 70
+     },
+     "kind": "learn",
+     "minutes": 70,
+     "exact": true
+    },
+    {
+     "id": "fr-first",
+     "title": "[3-1] 第一个多任务程序",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       9,
+       9
+      ],
+      "label": "P9",
+      "start": 9,
+      "videoMinutes": 13
+     },
+     "kind": "learn",
+     "minutes": 13,
+     "exact": true
+    },
+    {
+     "id": "fr-arm",
+     "title": "[3-2] ARM 架构简明教程：汇编与实例",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       10,
+       11
+      ],
+      "label": "P10–11",
+      "start": 10,
+      "videoMinutes": 32
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 32,
+     "exact": true
+    },
+    {
+     "id": "fr-stack",
+     "title": "[3-3] 堆与栈：RTOS 如何使用栈",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       12,
+       15
+      ],
+      "label": "P12–15",
+      "start": 12,
+      "videoMinutes": 71
+     },
+     "kind": "learn",
+     "minutes": 71,
+     "exact": true
+    },
+    {
+     "id": "fr-source",
+     "title": "[4] 源码概述与内存管理",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       16,
+       17
+      ],
+      "label": "P16–17",
+      "start": 16,
+      "videoMinutes": 23
+     },
+     "kind": "learn",
+     "minutes": 23,
+     "exact": true
+    },
+    {
+     "id": "fr-task",
+     "title": "[5] 任务管理：创建删除、优先级、状态与调度、Delay",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       18,
+       26
+      ],
+      "label": "P18–26",
+      "start": 18,
+      "videoMinutes": 165
+     },
+     "kind": "learn",
+     "minutes": 165,
+     "exact": true
+    },
+    {
+     "id": "fr-sync",
+     "title": "[6] 同步、互斥与通信的问题",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       27,
+       29
+      ],
+      "label": "P27–29",
+      "start": 27,
+      "videoMinutes": 36
+     },
+     "kind": "learn",
+     "minutes": 36,
+     "exact": true
+    },
+    {
+     "id": "fr-queue",
+     "title": "[7–8] 队列与队列集：游戏机项目",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       30,
+       40
+      ],
+      "label": "P30–40",
+      "start": 30,
+      "videoMinutes": 250
+     },
+     "kind": "learn",
+     "minutes": 250,
+     "exact": true
+    },
+    {
+     "id": "fr-sem",
+     "title": "[9] 信号量与互斥量：优先级反转",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       41,
+       44
+      ],
+      "label": "P41–44",
+      "start": 41,
+      "videoMinutes": 54
+     },
+     "kind": "learn",
+     "minutes": 54,
+     "exact": true
+    },
+    {
+     "id": "fr-event",
+     "title": "[10] 事件组：车辆协同",
+     "ref": {
+      "bv": "BV1Jw411i7Fz",
+      "p": [
+       45,
+       46
+      ],
+      "label": "P45–46",
+      "start": 45,
+      "videoMinutes": 22
+     },
+     "kind": "learn",
+     "minutes": 22,
+     "exact": true
+    },
+    {
+     "id": "fr-notify",
+     "title": "任务通知与软件定时器（B 站版未录，见百问网专栏）",
+     "ref": {
+      "url": "https://100ask.net/course/134",
+      "label": "百问网"
+     },
+     "minutes": 120,
+     "optional": true,
+     "kind": "learn"
+    },
+    {
+     "id": "fr-teach-asyncio",
+     "title": "对照 MicroPython asyncio：任务 / 队列 / 事件",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "02": "fr-task",
+    "03": "fr-queue",
+    "04": "fr-sem",
+    "05": "fr-event",
+    "06": "fr-notify",
+    "08": "fr-teach-asyncio"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 704
+  },
+  {
+   "id": "lwip-alientek",
+   "track": "rtos-net",
+   "order": 15,
+   "short": "LwIP",
+   "title": "基于 STM32 的 LwIP 网络教学",
+   "teacher": "正点原子",
+   "platform": "哔哩哔哩 / 正点原子官网 / 原子哥",
+   "role": "elective",
+   "roleLabel": "按需",
+   "links": [
+    {
+     "label": "B 站旧版合集",
+     "url": "https://www.bilibili.com/video/BV1zx411d7eC/",
+     "kind": "video",
+     "primary": true,
+     "meta": "21P · 17.6h"
+    },
+    {
+     "label": "官方新版资料",
+     "url": "https://www.openedv.com/docs/book-videos/zdyzshipin/4free/newlwIP.html",
+     "kind": "official"
+    },
+    {
+     "label": "B 站官方空间",
+     "url": "https://space.bilibili.com/394620890",
+     "kind": "official"
+    },
+    {
+     "label": "原子哥平台",
+     "url": "https://www.yuanzige.com/",
+     "kind": "official"
+    }
+   ],
+   "note": "按需，不计入：需要带以太网的 STM32 板，对 ESP32 Wi‑Fi / MQTT 教学只作协议层对照。新版以官方空间 / 原子哥为准，进空间搜「lwIP」；大纲按旧版 21 讲归并。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "lw-port-f4",
+     "title": "F4 开发板移植（无 OS / 带 UCOS）与移植文件讲解",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       1,
+       4
+      ],
+      "label": "P1–4",
+      "start": 1,
+      "videoMinutes": 314
+     },
+     "kind": "learn",
+     "minutes": 314,
+     "exact": true
+    },
+    {
+     "id": "lw-port-f1",
+     "title": "F1 开发板移植",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       5,
+       7
+      ],
+      "label": "P5–7",
+      "start": 5,
+      "videoMinutes": 183
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 183,
+     "exact": true
+    },
+    {
+     "id": "lw-core",
+     "title": "内存、数据包与网络接口管理",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       8,
+       10
+      ],
+      "label": "P8–10",
+      "start": 8,
+      "videoMinutes": 126
+     },
+     "kind": "learn",
+     "minutes": 126,
+     "exact": true
+    },
+    {
+     "id": "lw-udp",
+     "title": "RAW UDP 实验",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       11,
+       11
+      ],
+      "label": "P11",
+      "start": 11,
+      "videoMinutes": 54
+     },
+     "kind": "learn",
+     "minutes": 54,
+     "exact": true
+    },
+    {
+     "id": "lw-tcp",
+     "title": "TCP 基础与 RAW TCP 客户端 / 服务器",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       12,
+       14
+      ],
+      "label": "P12–14",
+      "start": 12,
+      "videoMinutes": 100
+     },
+     "kind": "learn",
+     "minutes": 100,
+     "exact": true
+    },
+    {
+     "id": "lw-web",
+     "title": "WebServer 实验",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       15,
+       15
+      ],
+      "label": "P15",
+      "start": 15,
+      "videoMinutes": 34
+     },
+     "kind": "learn",
+     "minutes": 34,
+     "exact": true
+    },
+    {
+     "id": "lw-netconn",
+     "title": "NETCONN 接口：UDP 与 TCP",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       16,
+       18
+      ],
+      "label": "P16–18",
+      "start": 16,
+      "videoMinutes": 92
+     },
+     "kind": "learn",
+     "minutes": 92,
+     "exact": true
+    },
+    {
+     "id": "lw-enc28j60",
+     "title": "ENC28J60 模块移植",
+     "ref": {
+      "bv": "BV1zx411d7eC",
+      "p": [
+       19,
+       21
+      ],
+      "label": "P19–21",
+      "start": 19,
+      "videoMinutes": 152
+     },
+     "optional": true,
+     "kind": "learn",
+     "minutes": 152,
+     "exact": true
+    },
+    {
+     "id": "lw-teach-compare",
+     "title": "一页纸：LwIP 协议层对照 ESP32 Wi‑Fi / MQTT",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "02": "lw-port-f4",
+    "03": "lw-udp",
+    "04": "lw-tcp",
+    "05": "lw-web",
+    "07": "lw-teach-compare"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 720
+  },
+  {
+   "id": "hardware-online",
+   "track": "hw-pcb",
+   "order": 16,
+   "short": "硬件入门",
+   "title": "硬件工程师零基础入门",
+   "teacher": "电子online",
+   "platform": "哔哩哔哩",
+   "role": "core",
+   "links": [
+    {
+     "label": "B 站 · 2024 全新课程",
+     "url": "https://www.bilibili.com/video/BV1gHSyY3E6q/",
+     "kind": "video",
+     "primary": true,
+     "meta": "127P · 21.1h"
+    }
+   ],
+   "note": "从安全、欧姆定律、R/L/C、二极管三极管 MOS、比较器、运放、开关电源，到循迹小车与原理图 / PCB 流程；比纯模电课更「工程向」。合集里有 2 段课程推广（P21–22），不计时长。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "ho-safety",
+     "title": "课程介绍与电路设计安全",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       1,
+       2
+      ],
+      "label": "P1–2",
+      "start": 1,
+      "videoMinutes": 20
+     },
+     "kind": "learn",
+     "minutes": 20,
+     "exact": true
+    },
+    {
+     "id": "ho-resistor",
+     "title": "欧姆定律与电阻：识别、功率、限流 / 分流 / 分压",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       3,
+       8
+      ],
+      "label": "P3–8",
+      "start": 3,
+      "videoMinutes": 93
+     },
+     "kind": "learn",
+     "minutes": 93,
+     "exact": true
+    },
+    {
+     "id": "ho-capacitor",
+     "title": "电容：储能延时、稳压滤波、RC 高低通",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       9,
+       20
+      ],
+      "label": "P9–20",
+      "start": 9,
+      "videoMinutes": 150
+     },
+     "kind": "learn",
+     "minutes": 150,
+     "exact": true
+    },
+    {
+     "id": "ho-inductor",
+     "title": "电感：特性、感抗、LC 滤波",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       23,
+       30
+      ],
+      "label": "P23–30",
+      "start": 23,
+      "videoMinutes": 94
+     },
+     "kind": "learn",
+     "minutes": 94,
+     "exact": true
+    },
+    {
+     "id": "ho-diode",
+     "title": "二极管：整流、钳位、稳压管",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       31,
+       39
+      ],
+      "label": "P31–39",
+      "start": 31,
+      "videoMinutes": 90
+     },
+     "kind": "learn",
+     "minutes": 90,
+     "exact": true
+    },
+    {
+     "id": "ho-bjt",
+     "title": "三极管：开关电路设计、P / N 管怎么选",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       40,
+       48
+      ],
+      "label": "P40–48",
+      "start": 40,
+      "videoMinutes": 81
+     },
+     "kind": "learn",
+     "minutes": 81,
+     "exact": true
+    },
+    {
+     "id": "ho-apps",
+     "title": "应用电路：自动水龙头、温控风扇、人体感应灯、光控灯",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       49,
+       55
+      ],
+      "label": "P49–55",
+      "start": 49,
+      "videoMinutes": 63
+     },
+     "kind": "learn",
+     "minutes": 63,
+     "exact": true
+    },
+    {
+     "id": "ho-mos",
+     "title": "MOS 管：开关设计、寄生参数、电源开关与防反接",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       56,
+       67
+      ],
+      "label": "P56–67",
+      "start": 56,
+      "videoMinutes": 127
+     },
+     "kind": "learn",
+     "minutes": 127,
+     "exact": true
+    },
+    {
+     "id": "ho-comparator",
+     "title": "比较器：上拉电阻、OD / OC 输出、颤振",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       68,
+       73
+      ],
+      "label": "P68–73",
+      "start": 68,
+      "videoMinutes": 38
+     },
+     "kind": "learn",
+     "minutes": 38,
+     "exact": true
+    },
+    {
+     "id": "ho-opamp",
+     "title": "运放：虚短虚断、放大、电流采样、仪表放大器、恒流源",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       74,
+       94
+      ],
+      "label": "P74–94",
+      "start": 74,
+      "videoMinutes": 196
+     },
+     "kind": "learn",
+     "minutes": 196,
+     "exact": true
+    },
+    {
+     "id": "ho-power",
+     "title": "电源：线性稳压、BUCK / BOOST、电荷泵",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       95,
+       105
+      ],
+      "label": "P95–105",
+      "start": 95,
+      "videoMinutes": 81
+     },
+     "kind": "learn",
+     "minutes": 81,
+     "exact": true
+    },
+    {
+     "id": "ho-car",
+     "title": "纯硬件循迹小车",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       106,
+       117
+      ],
+      "label": "P106–117",
+      "start": 106,
+      "videoMinutes": 95
+     },
+     "kind": "learn",
+     "minutes": 95,
+     "exact": true
+    },
+    {
+     "id": "ho-pcb",
+     "title": "原理图封装与 PCB 设计流程",
+     "ref": {
+      "bv": "BV1gHSyY3E6q",
+      "p": [
+       118,
+       127
+      ],
+      "label": "P118–127",
+      "start": 118,
+      "videoMinutes": 122
+     },
+     "kind": "learn",
+     "minutes": 122,
+     "exact": true
+    },
+    {
+     "id": "ho-teach-demo",
+     "title": "挑 3 个应用电路做成课堂演示",
+     "kind": "teach"
+    }
+   ],
+   "legacyIds": {
+    "01": "ho-safety",
+    "02": "ho-resistor",
+    "04": "ho-bjt",
+    "05": "ho-opamp",
+    "06": "ho-power",
+    "07": "ho-pcb",
+    "08": "ho-car"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 1250
+  },
+  {
+   "id": "pcb-fanyi",
+   "track": "hw-pcb",
+   "order": 17,
+   "short": "PCB",
+   "title": "Altium Designer PCB 设计教程",
+   "teacher": "凡亿教育",
+   "platform": "哔哩哔哩 / 凡亿课堂",
+   "role": "core",
+   "prereq": [
+    "hardware-online"
+   ],
+   "links": [
+    {
+     "label": "B 站 AD22/23 新手入门",
+     "url": "https://www.bilibili.com/video/BV11a411x75o/",
+     "kind": "video",
+     "primary": true,
+     "meta": "57P · 12.5h"
+    },
+    {
+     "label": "B 站 · 两层板演示（单集 8 分钟）",
+     "url": "https://www.bilibili.com/video/BV1CJ411G7At/",
+     "kind": "video"
+    },
+    {
+     "label": "凡亿课堂",
+     "url": "https://www.fanyedu.com/",
+     "kind": "official"
+    }
+   ],
+   "note": "安装 / 原理图 / 封装 / 布局布线 / 规则 / DRC / Gerber。同名课很多，优先跟「新手入门必备课」这一套；做学生板或教具小板够用。课程里没有讲打样，列为课外选做。",
+   "outlineSource": "bilibili",
+   "outline": [
+    {
+     "id": "fy-start",
+     "title": "学习方法、AD22 安装与工程创建",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       1,
+       3
+      ],
+      "label": "P1–3",
+      "start": 1,
+      "videoMinutes": 38
+     },
+     "kind": "learn",
+     "minutes": 38,
+     "exact": true
+    },
+    {
+     "id": "fy-symlib",
+     "title": "原理图库：元件符号创建、调用与检查",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       4,
+       7
+      ],
+      "label": "P4–7",
+      "start": 4,
+      "videoMinutes": 54
+     },
+     "kind": "learn",
+     "minutes": 54,
+     "exact": true
+    },
+    {
+     "id": "fy-sch",
+     "title": "原理图绘制：连线、网络标号、编译检查、BOM 与 PDF",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       8,
+       20
+      ],
+      "label": "P8–20",
+      "start": 8,
+      "videoMinutes": 123
+     },
+     "kind": "learn",
+     "minutes": 123,
+     "exact": true
+    },
+    {
+     "id": "fy-footprint",
+     "title": "PCB 封装：焊盘、IPC 向导、封装库与 3D 模型",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       21,
+       26
+      ],
+      "label": "P21–26",
+      "start": 21,
+      "videoMinutes": 104
+     },
+     "kind": "learn",
+     "minutes": 104,
+     "exact": true
+    },
+    {
+     "id": "fy-import",
+     "title": "导入 PCB、板框、固定孔与层叠",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       27,
+       30
+      ],
+      "label": "P27–30",
+      "start": 27,
+      "videoMinutes": 55
+     },
+     "kind": "learn",
+     "minutes": 55,
+     "exact": true
+    },
+    {
+     "id": "fy-layout",
+     "title": "布局：交互式 / 模块化布局、鼠线与 Class",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       31,
+       34
+      ],
+      "label": "P31–34",
+      "start": 31,
+      "videoMinutes": 70
+     },
+     "kind": "learn",
+     "minutes": 70,
+     "exact": true
+    },
+    {
+     "id": "fy-route",
+     "title": "布线：常用命令、自动布线、泪滴",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       35,
+       37
+      ],
+      "label": "P35–37",
+      "start": 35,
+      "videoMinutes": 55
+     },
+     "kind": "learn",
+     "minutes": 55,
+     "exact": true
+    },
+    {
+     "id": "fy-copper",
+     "title": "敷铜：局部 / 异形敷铜、Cutout、脚本",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       38,
+       41
+      ],
+      "label": "P38–41",
+      "start": 38,
+      "videoMinutes": 45
+     },
+     "kind": "learn",
+     "minutes": 45,
+     "exact": true
+    },
+    {
+     "id": "fy-rules",
+     "title": "设计规则：间距、线宽、过孔、差分、Room",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       42,
+       49
+      ],
+      "label": "P42–49",
+      "start": 42,
+      "videoMinutes": 85
+     },
+     "kind": "learn",
+     "minutes": 85,
+     "exact": true
+    },
+    {
+     "id": "fy-drc",
+     "title": "DRC 检查、尺寸标注、丝印与 LOGO",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       50,
+       54
+      ],
+      "label": "P50–54",
+      "start": 50,
+      "videoMinutes": 72
+     },
+     "kind": "learn",
+     "minutes": 72,
+     "exact": true
+    },
+    {
+     "id": "fy-output",
+     "title": "装配图、Gerber 输出与总结",
+     "ref": {
+      "bv": "BV11a411x75o",
+      "p": [
+       55,
+       57
+      ],
+      "label": "P55–57",
+      "start": 55,
+      "videoMinutes": 45
+     },
+     "kind": "learn",
+     "minutes": 45,
+     "exact": true
+    },
+    {
+     "id": "fy-board",
+     "title": "课外选做：画一块教具小板并打样",
+     "kind": "practice",
+     "custom": true,
+     "optional": true,
+     "minutes": 240
+    }
+   ],
+   "legacyIds": {
+    "01": "fy-start",
+    "02": "fy-symlib",
+    "03": "fy-footprint",
+    "04": "fy-import",
+    "05": "fy-layout",
+    "06": "fy-route",
+    "07": "fy-output",
+    "08": "fy-board"
+   },
+   "tier": "upskill",
+   "requiredMinutes": 746
+  }
+ ],
+ "route": {
+  "steps": [
+   {
+    "label": "Python 入门",
+    "detail": "选学前置 · 有基础可跳过",
+    "courses": [
+     "python-songtian"
+    ],
+    "optional": true
+   },
+   {
+    "label": "ESP32 + MicroPython",
+    "detail": "极客侠 27 篇 · 主线起点",
+    "courses": [
+     "esp32-geeksman-mpy"
+    ]
+   },
+   {
+    "label": "巴法 MQTT / 微信推送",
+    "detail": "物联网单元 · 讲义 L17–L25",
+    "courses": [
+     "esp32-bemfa-mqtt"
+    ]
+   },
+   {
+    "label": "asyncio / 状态机",
+    "detail": "进阶 · 多任务不卡顿",
+    "courses": [
+     "esp32-asyncio-fsm"
+    ]
+   }
   ],
-  "studyPlan": "ESP32 + MicroPython（极客侠）\n  → 巴法 MQTT / 微信推送\n  → asyncio / 状态机（按需）\n并行：Mind+ × Arduino（课堂）· K230 视觉（端侧 AI）· Wokwi 仿真\n选学补强：C → 电路/模电 → STM32（二选一）→ FreeRTOS → LwIP → PCB",
-  "studyContext": "主线服务小学 ESP32/MicroPython/AI 硬件课；豆包 9 门是老师电类底子补强，STM32 二选一即可。仿真与 K230 按备课需要点开。"
+  "branches": [
+   {
+    "label": "并行 · 课堂与拓展",
+    "flow": "parallel",
+    "groups": [
+     [
+      "arduino-mindplus"
+     ],
+     [
+      "k230-canmv"
+     ],
+     [
+      "esp32s3-ai-voice"
+     ],
+     [
+      "sim-lab-wokwi"
+     ]
+    ]
+   },
+   {
+    "label": "选学补强",
+    "flow": "sequence",
+    "groups": [
+     [
+      "c-wengkai"
+     ],
+     [
+      "circuits-shiqun",
+      "analog-zheng",
+      "hardware-online"
+     ],
+     [
+      "stm32-tietou"
+     ],
+     [
+      "freertos-wei"
+     ],
+     [
+      "pcb-fanyi"
+     ]
+    ],
+    "note": "LwIP 按需；江协是 STM32 备选"
+   }
+  ],
+  "tip": "不必全学：石群 80 集只挑 1–9 章，LwIP 按需，STM32 只跟铁头山羊。",
+  "context": "主线服务小学 ESP32 / MicroPython / AI 硬件课：先把 ESP32 外设讲透，再接物联网（巴法云）和多任务（asyncio）。课堂与拓展里，Mind+ 是低年级教具，K230 和 ESP32-S3 语音是 AI 单元的两条线，仿真用来备课。老师补强是自己的电类底子：C 和电路先行，STM32 只选一门，FreeRTOS 帮你理解 asyncio 背后的调度，PCB 让你能给学生做小板。"
+ }
 };

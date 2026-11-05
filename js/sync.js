@@ -1,71 +1,17 @@
-/* 多端进度同步：以私有 GitHub Gist 为云端存储，令牌只保存在当前浏览器。
- * 本文件不操作页面 DOM；app.js 通过 ProgressSync.start(adapter) 接入，并订阅状态变化。 */
+/* 多端进度同步：云端是你 GitHub 账号下的一个 secret Gist，令牌只保存在当前浏览器。
+ * secret Gist 不会出现在你的 Gist 列表和搜索里，但不是私有的：拿到地址的人都能查看内容。
+ * 本文件不操作页面 DOM；app.js 通过 ProgressSync.start(adapter) 接入，并订阅状态变化。
+ * 合并规则在 js/model.js：按章节各自取较新的一端，两台设备勾了不同章节不会互相覆盖。 */
 "use strict";
 
 (() => {
   const config = window.SYNC_CONFIG || {};
+  const Model = window.ProgressModel;
   const API = "https://api.github.com/gists/";
+  const DEVICE_KEY = config.deviceKey || "learning-courses-device";
   const DEBOUNCE_MS = 1000;
   const RETRY_MS = 30000;
   const RESYNC_ON_FOCUS_MS = 15000;
-  const STATES = ["not_started", "in_progress", "done"];
-
-  const isObject = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
-  const time = (value) => {
-    const parsed = typeof value === "string" ? Date.parse(value) : NaN;
-    return Number.isFinite(parsed) ? parsed : 0;
-  };
-  const iso = (ms) => (ms ? new Date(ms).toISOString() : null);
-  const statusOf = (progress) => (progress === 0 ? "not_started" : progress === 100 ? "done" : "in_progress");
-
-  // —— 进度文档：{ version: 1, updatedAt, courses: { id: { status, progress, checked?, updatedAt } } } ——
-  // checked 为已勾选的大纲章节 id；本模块不认识课程大纲，只负责去重，按大纲过滤与推算进度由 app.js 完成。
-
-  // 规范化任意来源的进度文档：丢弃无效记录；课程缺少时间戳时沿用文档时间戳（兼容旧版只有整体 updatedAt 的记录）。
-  // 旧版记录没有 checked 字段，原样保留为「无勾选信息」，不补空数组。
-  function normalize(raw) {
-    const doc = { version: 1, updatedAt: null, courses: {} };
-    if (!isObject(raw) || !isObject(raw.courses)) return doc;
-    const fallback = time(raw.updatedAt);
-    for (const [id, record] of Object.entries(raw.courses)) {
-      if (!isObject(record) || !STATES.includes(record.status)) continue;
-      if (!Number.isInteger(record.progress) || record.progress < 0 || record.progress > 100) continue;
-      const stamp = time(record.updatedAt) || fallback;
-      doc.courses[id] = { status: statusOf(record.progress), progress: record.progress };
-      if (Array.isArray(record.checked)) doc.courses[id].checked = [...new Set(record.checked.filter((item) => typeof item === "string"))];
-      if (stamp) doc.courses[id].updatedAt = iso(stamp);
-    }
-    doc.updatedAt = latest(doc.courses);
-    return doc;
-  }
-
-  function latest(courseMap) {
-    return iso(Math.max(0, ...Object.values(courseMap).map((record) => time(record.updatedAt))));
-  }
-
-  // 按课程 id 合并：同一门课取 updatedAt 较新的一方整条覆盖（含 checked，不做并集）；相同时保留本地。
-  function merge(local, remote) {
-    const courses = {};
-    const ids = new Set([...Object.keys(local.courses), ...Object.keys(remote.courses)]);
-    for (const id of ids) {
-      const mine = local.courses[id];
-      const theirs = remote.courses[id];
-      courses[id] = !theirs ? mine : !mine ? theirs : time(theirs.updatedAt) > time(mine.updatedAt) ? theirs : mine;
-    }
-    return { version: 1, updatedAt: latest(courses), courses };
-  }
-
-  const marks = (record) => (record.checked ? [...record.checked].sort().join("\n") : null);
-
-  function sameCourses(a, b) {
-    const ids = Object.keys(a.courses);
-    if (ids.length !== Object.keys(b.courses).length) return false;
-    return ids.every((id) => {
-      const x = a.courses[id];
-      const y = b.courses[id];
-      return y && x.progress === y.progress && marks(x) === marks(y) && time(x.updatedAt) === time(y.updatedAt);
-    });
-  }
 
   // —— 令牌 ——
 
@@ -93,6 +39,35 @@
     return token.length <= 12 ? "••••" + token.slice(-2) : token.slice(0, 4) + "••••" + token.slice(-4);
   }
 
+  // —— 设备名：只存在本浏览器，推送时写进进度文档，同步历史里据此显示「哪台设备」 ——
+
+  function guessName() {
+    const agent = navigator.userAgent || "";
+    if (/iPhone|iPad/.test(agent)) return "iPhone / iPad";
+    if (/Android/.test(agent)) return "Android";
+    if (/Mac/.test(agent)) return "Mac";
+    if (/Windows/.test(agent)) return "Windows";
+    return "这台设备";
+  }
+
+  function device() {
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(DEVICE_KEY) || "null"); } catch { saved = null; }
+    if (saved && typeof saved.id === "string" && typeof saved.name === "string") return saved;
+    const fresh = { id: Math.random().toString(36).slice(2, 10), name: guessName() };
+    try { localStorage.setItem(DEVICE_KEY, JSON.stringify(fresh)); } catch { /* 存不下就每次临时生成 */ }
+    return fresh;
+  }
+
+  function setDeviceName(name) {
+    const clean = String(name || "").trim().slice(0, 40);
+    if (!clean) throw new Error("设备名不能为空。");
+    const next = { ...device(), name: clean };
+    try { localStorage.setItem(DEVICE_KEY, JSON.stringify(next)); }
+    catch { throw new Error("浏览器禁止本地存储，无法保存设备名。"); }
+    return next;
+  }
+
   // —— 网络 ——
 
   class SyncError extends Error {
@@ -114,10 +89,10 @@
     return new SyncError(`GitHub 拒绝了请求（HTTP ${code}）`);
   }
 
-  async function request(method, body) {
+  async function request(method, body, path = "") {
     let response;
     try {
-      response = await fetch(API + encodeURIComponent(config.gistId), {
+      response = await fetch(API + encodeURIComponent(config.gistId) + path, {
         method,
         cache: "no-store",
         headers: {
@@ -134,25 +109,73 @@
     return response.json();
   }
 
+  // 读取云端文件：返回 { doc, version }。文件缺失或为空视为空文档；无效 JSON 或来自更新版本的页面时暂停同步，避免覆盖。
   function readRemote(gist) {
     const file = gist && gist.files && gist.files[config.filename];
-    if (!file) return normalize(null);
+    if (!file) return { doc: Model.emptyDoc(), version: 0 };
     if (file.truncated) throw new SyncError("云端进度文件过大，已暂停同步");
     const text = (file.content || "").trim();
-    if (!text) return normalize(null);
-    try { return normalize(JSON.parse(text)); }
+    if (!text) return { doc: Model.emptyDoc(), version: 0 };
+    let raw;
+    try { raw = JSON.parse(text); }
     catch { throw new SyncError(`云端 ${config.filename} 不是有效 JSON，为免覆盖已暂停同步`); }
+    const doc = Model.normalize(raw);
+    if (doc.newer) throw new SyncError(`云端进度来自更新版本的页面（v${doc.newer}），请刷新本页后再同步`);
+    return { doc, version: raw && raw.version };
   }
 
   // 一次完整同步：拉取 → 合并 → 必要时写回本地 → 必要时推送。推送前总是先拉取，避免覆盖其他设备的新进度。
   async function syncOnce() {
     const remote = readRemote(await request("GET"));
-    const local = normalize(adapter.read());
-    const merged = merge(local, remote);
-    if (!sameCourses(merged, local)) adapter.write(merged);
-    if (!sameCourses(merged, remote)) {
-      await request("PATCH", { files: { [config.filename]: { content: JSON.stringify(merged, null, 2) + "\n" } } });
+    const local = Model.normalize(adapter.read());
+    const merged = Model.merge(local, remote.doc);
+    if (!Model.same(merged, local)) adapter.write(merged);
+    // 云端还是 v1 时也推送一次，把文件升级成 v2。
+    if (!Model.same(merged, remote.doc) || remote.version !== Model.VERSION) {
+      const me = device();
+      const payload = { ...merged, device: { id: me.id, name: me.name, at: new Date().toISOString() } };
+      await request("PATCH", { files: { [config.filename]: { content: JSON.stringify(payload, null, 1) + "\n" } } });
     }
+  }
+
+  // —— 同步历史：Gist 自带版本记录，取最近几次，读出每次的设备名与完成数 ——
+
+  const revisions = new Map();
+
+  async function revision(version) {
+    if (!revisions.has(version)) {
+      const gist = await request("GET", null, "/" + encodeURIComponent(version));
+      revisions.set(version, readRemote(gist).doc);
+    }
+    return revisions.get(version);
+  }
+
+  async function history(limit = 5) {
+    if (!ready()) throw new SyncError("请先设置令牌");
+    const gist = await request("GET");
+    const entries = (gist.history || []).slice(0, limit);
+    const out = [];
+    for (const entry of entries) {
+      let doc = null;
+      let problem = "";
+      try { doc = await revision(entry.version); }
+      catch (error) { problem = error.message || "读取失败"; }
+      let done = 0;
+      if (doc) {
+        for (const course of Object.values(doc.courses)) {
+          for (const item of Object.values(course.chapters)) if (item.state === "done") done += 1;
+        }
+      }
+      out.push({
+        version: entry.version,
+        committedAt: entry.committed_at,
+        device: doc && doc.device ? doc.device.name : "",
+        done,
+        doc,
+        problem
+      });
+    }
+    return out;
   }
 
   // —— 调度与状态 ——
@@ -167,7 +190,7 @@
   const listeners = new Set();
   const state = { phase: "off", message: "", lastSyncedAt: null };
 
-  const available = () => Boolean(config.gistId && config.filename && config.storageTokenKey);
+  const available = () => Boolean(Model && config.gistId && config.filename && config.storageTokenKey);
   const ready = () => Boolean(adapter && available() && readToken());
 
   function setStatus(patch) {
@@ -231,12 +254,13 @@
     generation += 1;
     stopTimers();
     queued = false;
+    revisions.clear();
     state.lastSyncedAt = null;
     setStatus(idleStatus());
     if (ready()) run();
   }
 
-  // adapter = { read(): 本地进度文档, write(合并后的文档): 写回本地并刷新界面 }
+  // adapter = { read(): 本地进度文档（v2）, write(合并后的文档): 写回本地并刷新界面 }
   function start(nextAdapter) {
     adapter = nextAdapter;
     setStatus(idleStatus());
@@ -256,16 +280,16 @@
   }
 
   window.ProgressSync = {
-    normalize,
-    merge,
-    sameCourses,
     start,
     schedule,
     syncNow: run,
+    history,
     setToken,
     clearToken,
     hasToken: () => Boolean(readToken()),
     maskedToken,
+    device,
+    setDeviceName,
     available,
     status: () => ({ ...state }),
     subscribe(listener) {
