@@ -76,3 +76,14 @@ DEPLOY.md               部署交接说明
 ```
 
 课程链接按来源保留，不保证第三方站点永久可访问。B 站反爬、登录要求或课程上下架可能影响外链，本站的课单与进度功能不受影响。
+
+
+## 多端同步（Mac / Windows）
+
+进度默认存在本机浏览器；配置同步后，会写入你 GitHub 账号下的**私有 Gist**，换电脑打开同一站点即可共用。
+
+1. 打开 [GitHub Token 设置](https://github.com/settings/tokens)，新建 classic token，只勾选 **gist**；或 fine-grained token，给 Gists **Read and write**。
+2. 打开学习站，点右上角「同步」，粘贴 token 并保存（只存在当前浏览器，不会进仓库）。
+3. Mac 和 Windows 各贴一次同一个 token 即可。改进度后约 1 秒自动上传；切回标签页会拉取合并。
+
+仍可用「导出 / 导入 JSON」做离线备份。
